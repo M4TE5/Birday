@@ -8,7 +8,7 @@ interface EventListRepository {
 
     fun editEvent(event: Event)
 
-    fun getEventById(id: Int): Event
+    fun getEventById(id: Int): Event?
 
     fun getEventList(): List<Event>
 }
