@@ -1,5 +1,7 @@
 package com.example.birday.domain
 
+import androidx.lifecycle.LiveData
+
 interface EventListRepository {
 
     fun addEvent(event: Event)
@@ -10,5 +12,5 @@ interface EventListRepository {
 
     fun getEventById(id: Int): Event?
 
-    fun getEventList(): List<Event>
+    fun getEventList(): LiveData<List<Event>>
 }

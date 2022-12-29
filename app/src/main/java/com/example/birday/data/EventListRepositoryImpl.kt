@@ -1,21 +1,33 @@
 package com.example.birday.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.birday.domain.Event
 import com.example.birday.domain.EventListRepository
 
-object EvenListRepositoryImpl : EventListRepository {
+object EventListRepositoryImpl : EventListRepository {
+
+    private val eventListLD = MutableLiveData<List<Event>>()
 
     private val eventList = mutableListOf<Event>()
 
     private var autoIncrementId = 0
 
+    init {
+        for (i in 0 until 5){
+            addEvent(Event("Name$i", "$i"))
+        }
+    }
+
     override fun addEvent(event: Event) {
         if (event.id == Event.UNDEFINED_ID) event.id = autoIncrementId++
         eventList.add(event)
+        updateList()
     }
 
     override fun deleteEvent(event: Event) {
         eventList.remove(event)
+        updateList()
     }
 
     override fun editEvent(event: Event) {
@@ -28,7 +40,11 @@ object EvenListRepositoryImpl : EventListRepository {
         return eventList.find { it.id == id }
     }
 
-    override fun getEventList(): List<Event> {
-        return eventList.toList()
+    override fun getEventList(): LiveData<List<Event>> {
+        return eventListLD
+    }
+
+    private fun updateList(){
+        eventListLD.value = eventList.toList()
     }
 }
