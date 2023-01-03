@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.birday.domain.Event
 import com.example.birday.domain.EventListRepository
+import kotlin.jvm.internal.Ref
+import kotlin.random.Random
 
 object EventListRepositoryImpl : EventListRepository {
 
@@ -14,8 +16,8 @@ object EventListRepositoryImpl : EventListRepository {
     private var autoIncrementId = 0
 
     init {
-        for (i in 0 until 5){
-            addEvent(Event("Name$i", "$i"))
+        for (i in 0 until 100){
+            addEvent(Event("Name$i", "$i", i % 5 == 0))
         }
     }
 
