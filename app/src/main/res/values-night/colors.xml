@@ -7,12 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#FFFFFFFF</color>
+    <color name="background">#1F1F1F</color>
     <color name="menu">#0F0F0F</color>
     <color name="cyan">#5ABF94</color>
-    <color name="bottom_nav_menu_inactive_elements">#949494</color>
-    <color name="conspicuous_elements">#FF000000</color>
-    <color name="semi_conspicuous_elements">#939393</color>
-    <color name="inconspicuous_elements">#E4E4E4</color>
+    <color name="conspicuous_elements">#FFFFFFFF</color>
+    <color name="semi_conspicuous_elements">#959595</color>
+    <color name="inconspicuous_elements">#3B3B3B</color>
     <color name="transparent">#00000000</color>
 </resources>
