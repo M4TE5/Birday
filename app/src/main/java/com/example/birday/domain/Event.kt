@@ -4,6 +4,7 @@ data class Event(
     val name: String,
     val date: String, //Пока так
     val showDateTag: Boolean = false,
+    var favorite: Boolean = false,
     var id :Int = UNDEFINED_ID
 ){
     companion object{

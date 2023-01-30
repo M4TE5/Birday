@@ -11,13 +11,13 @@ object EventListRepositoryImpl : EventListRepository {
 
     private val eventListLD = MutableLiveData<List<Event>>()
 
-    private val eventList = mutableListOf<Event>()
+    private val eventList = sortedSetOf<Event>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private var autoIncrementId = 0
 
     init {
-        for (i in 0 until 100){
-            addEvent(Event("Name$i", "$i", i % 5 == 0))
+        for (i in 0 until 50){
+            addEvent(Event("Name$i", "$i", i % 5 == 0, i % 5 == 0))
         }
     }
 
@@ -36,6 +36,7 @@ object EventListRepositoryImpl : EventListRepository {
         val oldItem = getEventById(event.id)
         eventList.remove(oldItem)
         addEvent(event)
+        updateList()
     }
 
     override fun getEventById(id: Int): Event? {
