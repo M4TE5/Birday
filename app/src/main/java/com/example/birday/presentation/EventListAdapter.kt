@@ -30,7 +30,7 @@ class EventListAdapter: ListAdapter<Event, EventListAdapter.EventHolder>(EventDi
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
         val event = getItem(position)
-        holder.tvName.text = event.name
+        holder.tvName.text = "${event.firstName} ${event.lastName}"
         holder.tvDate.text = event.date
         holder.checkBox.isChecked = event.favorite
         val visibility = if (event.showDateTag) View.VISIBLE else View.GONE

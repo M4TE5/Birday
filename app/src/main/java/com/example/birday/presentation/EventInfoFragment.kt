@@ -46,7 +46,7 @@ class EventInfoFragment: Fragment() {
     private fun fillTextInfo(){
         viewModel.getEventById(eventId)
         viewModel.event.observe(viewLifecycleOwner){
-            tvName.text = "Details - " + it.name
+            tvName.text = "Details - " + it.firstName
             tvDate.text = it.date
         }
     }
