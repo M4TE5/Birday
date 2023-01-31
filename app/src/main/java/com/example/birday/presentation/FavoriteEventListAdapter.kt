@@ -26,7 +26,7 @@ class FavoriteEventListAdapter: ListAdapter<Event, FavoriteEventListAdapter.Favo
 
     override fun onBindViewHolder(holder: FavoriteEventHolder, position: Int) {
         val event = getItem(position)
-        holder.tvName.text = event.name
+        holder.tvName.text = "${event.firstName} ${event.lastName}"
         holder.tvNextCelebrate.text = event.date
         holder.itemView.setOnClickListener {
             onEventClickListener?.invoke(event)

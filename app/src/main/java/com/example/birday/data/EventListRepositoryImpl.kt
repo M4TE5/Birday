@@ -11,13 +11,17 @@ object EventListRepositoryImpl : EventListRepository {
 
     private val eventListLD = MutableLiveData<List<Event>>()
 
-    private val eventList = sortedSetOf<Event>({o1, o2 -> o1.id.compareTo(o2.id)})
+    private val eventList = sortedSetOf<Event>({ o1, o2 -> o1.id.compareTo(o2.id) })
 
     private var autoIncrementId = 0
 
     init {
-        for (i in 0 until 50){
-            addEvent(Event("Name$i", "$i", i % 5 == 0, i % 5 == 0))
+        for (i in 0 until 50) {
+            addEvent(Event("firstName$i",
+                "lastName$i",
+                "$i",
+                i % 5 == 0,
+                i % 5 == 0))
         }
     }
 
@@ -47,7 +51,7 @@ object EventListRepositoryImpl : EventListRepository {
         return eventListLD
     }
 
-    private fun updateList(){
+    private fun updateList() {
         eventListLD.value = eventList.toList()
     }
 }

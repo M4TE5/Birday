@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
@@ -21,6 +22,7 @@ class EventItemFragment : Fragment() {
     private lateinit var etLastName: EditText
     private lateinit var buttonSave: Button
     private lateinit var tvHeader: TextView
+    private lateinit var icon: ImageView
 
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
@@ -54,26 +56,34 @@ class EventItemFragment : Fragment() {
 
     private fun launchEditMode() {
         fillTextInfo()
-        tvHeader.text = "Edit event"
+        tvHeader.text = getString(R.string.edit_event)
+        icon.setImageResource(R.drawable.baseline_edit_note_24)
         buttonSave.setOnClickListener {
-            viewModel.editItem(etFirstName.text.toString(), etLastName.text.toString(), "edited date")
+            viewModel.editItem(
+                etFirstName.text.toString(),
+                etLastName.text.toString(),
+                "edited date"
+            )
             requireActivity().onBackPressed()
         }
     }
 
     private fun launchAddMode() {
         buttonSave.setOnClickListener {
-            viewModel.addItem(etFirstName.text.toString(), etLastName.text.toString(), "edited date")
+            viewModel.addItem(
+                etFirstName.text.toString(),
+                etLastName.text.toString(),
+                "edited date"
+            )
             requireActivity().onBackPressed()
         }
     }
 
     private fun fillTextInfo() {
         viewModel.getItemById(eventId)
-        viewModel.event.observe(viewLifecycleOwner){
-            Log.d("MyLog","Name: " + it.name)
-            etFirstName.setText(it.name)
-            etLastName.setText(it.date)
+        viewModel.event.observe(viewLifecycleOwner) {
+            etFirstName.setText(it.firstName)
+            etLastName.setText(it.lastName)
         }
     }
 
@@ -101,6 +111,7 @@ class EventItemFragment : Fragment() {
         etLastName = view.findViewById(R.id.et_last_name)
         buttonSave = view.findViewById(R.id.b_save)
         tvHeader = view.findViewById(R.id.tv_header)
+        icon = view.findViewById(R.id.icon)
     }
 
     companion object {

@@ -1,7 +1,8 @@
 package com.example.birday.domain
 
 data class Event(
-    val name: String,
+    val firstName: String,
+    val lastName: String,
     val date: String, //Пока так
     val showDateTag: Boolean = false,
     var favorite: Boolean = false,
