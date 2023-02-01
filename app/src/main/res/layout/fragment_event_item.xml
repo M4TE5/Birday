@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_top" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/person_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="32dp"
@@ -68,7 +68,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/person_image" />
 
     <EditText
         android:id="@+id/et_last_name"
@@ -83,16 +83,66 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/et_first_name" />
 
+    <EditText
+        android:id="@+id/et_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/select_a_date"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@+id/et_last_name" />
+
     <Button
         android:id="@+id/b_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:text="@string/save"
         app:cornerRadius="100dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/et_last_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_consider_the_year" />
+
+    <TextView
+        android:id="@+id/tv_consider_the_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="Consider the year"
+        android:textColor="@color/semi_conspicuous_elements"
+        app:layout_constraintEnd_toStartOf="@id/switch_consider_the_year"
+        app:layout_constraintStart_toEndOf="@id/calendar_icon"
+        app:layout_constraintTop_toBottomOf="@+id/et_date" />
+
+    <ImageView
+        android:id="@+id/calendar_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_consider_the_year"
+        app:layout_constraintEnd_toStartOf="@+id/tv_consider_the_year"
+        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintTop_toTopOf="@+id/tv_consider_the_year"
+        app:srcCompat="@drawable/baseline_calendar_today_24"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:tint = "@color/semi_conspicuous_elements"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_consider_the_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_consider_the_year"
+        app:layout_constraintBottom_toBottomOf="@id/tv_consider_the_year"
+        app:layout_constraintStart_toEndOf="@id/tv_consider_the_year"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
