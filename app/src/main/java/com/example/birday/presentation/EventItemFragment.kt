@@ -2,8 +2,8 @@ package com.example.birday.presentation
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +13,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
-
+@RequiresApi(Build.VERSION_CODES.O)
 class EventItemFragment : Fragment() {
 
     private lateinit var viewModel: EventItemViewModel
@@ -33,6 +35,8 @@ class EventItemFragment : Fragment() {
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
@@ -53,7 +57,6 @@ class EventItemFragment : Fragment() {
         setDatePicker()
         launchRightMode()
     }
-
     private fun launchRightMode() {
         when (screenMode) {
             MODE_ADD -> launchAddMode()
@@ -65,11 +68,13 @@ class EventItemFragment : Fragment() {
         fillTextInfo()
         tvHeader.text = getString(R.string.edit_event)
         icon.setImageResource(R.drawable.baseline_edit_note_24)
+
         buttonSave.setOnClickListener {
+            val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
             viewModel.editItem(
                 etFirstName.text.toString(),
                 etLastName.text.toString(),
-                etDate.text.toString()
+                date
             )
             requireActivity().onBackPressed()
         }
@@ -77,10 +82,11 @@ class EventItemFragment : Fragment() {
 
     private fun launchAddMode() {
         buttonSave.setOnClickListener {
+            val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
             viewModel.addItem(
                 etFirstName.text.toString(),
                 etLastName.text.toString(),
-                etDate.text.toString()
+                date
             )
             requireActivity().onBackPressed()
         }
@@ -91,7 +97,7 @@ class EventItemFragment : Fragment() {
         viewModel.event.observe(viewLifecycleOwner) {
             etFirstName.setText(it.firstName)
             etLastName.setText(it.lastName)
-            etDate.setText(it.date)
+            etDate.setText(it.date.format(dateFormatter))
         }
     }
 
@@ -103,7 +109,9 @@ class EventItemFragment : Fragment() {
 
         val dialog = DatePickerDialog(requireContext(),
             { view, year, month, dayOfMonth ->
-                etDate.setText("$dayOfMonth.${month+1}.$year")
+                val date = LocalDate.of(year,month + 1, dayOfMonth)
+                val dateStr = date.format(dateFormatter)
+                etDate.setText(dateStr)
             }, year, month, day)
 
         etDate.setOnClickListener {

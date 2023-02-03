@@ -6,5 +6,5 @@
     <string name="save">save</string>
     <string name="edit_event">Edit event</string>
     <string name="select_a_date">Select a date</string>
-
+    <string name="event_name">%1s %2s</string>
 </resources>

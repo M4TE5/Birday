@@ -1,5 +1,6 @@
 package com.example.birday.presentation
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
-
+import java.time.format.DateTimeFormatter
+@RequiresApi(Build.VERSION_CODES.O)
 class EventInfoFragment: Fragment() {
 
     private lateinit var viewModel: EventInfoViewModel
@@ -45,9 +48,12 @@ class EventInfoFragment: Fragment() {
 
     private fun fillTextInfo(){
         viewModel.getEventById(eventId)
+        val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
         viewModel.event.observe(viewLifecycleOwner){
             tvName.text = "Details - " + it.firstName
-            tvDate.text = it.date
+            val dayName = it.date.dayOfWeek.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+            val date = it.date.format(dateFormatter)
+            tvDate.text = "$dayName, $date"
         }
     }
 

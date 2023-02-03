@@ -35,7 +35,7 @@ class EventListFragment : Fragment() {
         viewModel.eventList.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
-        setupEventClickListener()
+        setupEventClickListeners()
     }
 
     private fun setupRecyclerView(){
@@ -44,10 +44,13 @@ class EventListFragment : Fragment() {
         rvEventList.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun setupEventClickListener(){
+    private fun setupEventClickListeners(){
         adapter.onEventClickListener = {
             val fragment = EventInfoFragment.newInstanceShowEvent(it.id)
             launchFragment(fragment)
+        }
+        adapter.onCheckBoxChangeListener = { it, checked ->
+            it.favorite = checked
         }
     }
 

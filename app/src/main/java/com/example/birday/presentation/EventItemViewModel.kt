@@ -8,6 +8,7 @@ import com.example.birday.domain.AddEventUseCase
 import com.example.birday.domain.EditEventUseCase
 import com.example.birday.domain.Event
 import com.example.birday.domain.GetEventByIdUseCase
+import java.time.LocalDate
 import kotlin.concurrent.fixedRateTimer
 
 class EventItemViewModel: ViewModel() {
@@ -21,7 +22,7 @@ class EventItemViewModel: ViewModel() {
     val event: LiveData<Event>
         get() = _event
 
-    fun addItem(firstName: String, lastName: String, date: String){
+    fun addItem(firstName: String, lastName: String, date: LocalDate){
         if (validateInput(firstName, lastName)){
             val event = Event(firstName, lastName, date)
             addEventUseCase.addEvent(event)
@@ -46,7 +47,7 @@ class EventItemViewModel: ViewModel() {
         return true
     }
 
-    fun editItem(firstName: String, lastName: String, date: String){
+    fun editItem(firstName: String, lastName: String, date: LocalDate){
         if (validateInput(firstName, lastName)){
             _event.value?.let {
                 val event = it.copy(firstName = firstName, lastName = lastName, date = date)

@@ -1,28 +1,42 @@
 package com.example.birday.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.birday.domain.Event
 import com.example.birday.domain.EventListRepository
-import kotlin.jvm.internal.Ref
+import java.time.LocalDate
+import java.time.Period
 import kotlin.random.Random
 
+@RequiresApi(Build.VERSION_CODES.O)
 object EventListRepositoryImpl : EventListRepository {
 
     private val eventListLD = MutableLiveData<List<Event>>()
 
-    private val eventList = sortedSetOf<Event>({ o1, o2 -> o1.id.compareTo(o2.id) })
+    private val eventList = sortedSetOf<Event>(
+        { o1, o2 -> Event.daysLeft(o2.date) compareTo(Event.daysLeft(o1.date)) }
+    )
+    //TODO: Эта залупа удаляет дубликаты, исправить
 
     private var autoIncrementId = 0
-
     init {
+        addEvent(Event("TODAY","",LocalDate.now(), showDateTag = true, favorite = true))
         for (i in 0 until 50) {
+            val date = getRandomDate()
             addEvent(Event("firstName$i",
                 "lastName$i",
-                "$i",
+                date,
                 i % 5 == 0,
                 i % 5 == 0))
         }
+    }
+    private fun getRandomDate(): LocalDate{
+        val day = Random.nextInt(1,29)
+        val month = Random.nextInt(1,13)
+        val year = Random.nextInt(2000, 2024)
+        return LocalDate.of(year,month,day)
     }
 
     override fun addEvent(event: Event) {
