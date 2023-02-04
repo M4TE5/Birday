@@ -50,7 +50,7 @@ class EventItemViewModel: ViewModel() {
     fun editItem(firstName: String, lastName: String, date: LocalDate){
         if (validateInput(firstName, lastName)){
             _event.value?.let {
-                val event = it.copy(firstName = firstName, lastName = lastName, date = date)
+                val event = Event(it.firstName, it.lastName, it.date)
                 editEventUseCase.editEvent(event)
             }
         }

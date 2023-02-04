@@ -6,8 +6,8 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.Period
 import java.time.temporal.ChronoUnit
-
-data class Event(
+@RequiresApi(Build.VERSION_CODES.O)
+class Event(
     val firstName: String,
     val lastName: String,
     val date: LocalDate,
@@ -16,17 +16,23 @@ data class Event(
     var id: Int = UNDEFINED_ID
 ) {
 
-
+    fun getAge(): Int{
+        return (Period.between(date, LocalDate.now())).years
+    }
+    fun daysLeft(): Int{
+        val currentDate = LocalDate.now()
+        var newDate = LocalDate.of(currentDate.year, date.month, date.dayOfMonth)
+        if (newDate < currentDate) newDate = newDate.plusYears(1)
+        return newDate.until(currentDate, ChronoUnit.DAYS).toInt()
+    }
+    fun getNextCelebrationDate(): LocalDate = LocalDate.of(
+        LocalDate.now().year,
+        date.month,
+        date.dayOfMonth
+    )
+    fun getDayName(): String = date.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
     companion object {
         const val UNDEFINED_ID = -1
         const val DATE_FORMAT = "MMMM d, yyyy"
-
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun daysLeft(date: LocalDate): Int {
-            val currentDate = LocalDate.now()
-            var newDate = LocalDate.of(currentDate.year, date.month, date.dayOfMonth)
-            if (newDate < currentDate) newDate = newDate.plusYears(1)
-            return newDate.until(currentDate, ChronoUnit.DAYS).toInt()
-        }
     }
 }

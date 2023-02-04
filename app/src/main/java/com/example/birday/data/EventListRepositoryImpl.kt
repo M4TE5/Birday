@@ -16,14 +16,14 @@ object EventListRepositoryImpl : EventListRepository {
     private val eventListLD = MutableLiveData<List<Event>>()
 
     private val eventList = sortedSetOf<Event>(
-        { o1, o2 -> Event.daysLeft(o2.date) compareTo(Event.daysLeft(o1.date)) }
+        { o1, o2 -> o2.daysLeft() compareTo(o1.daysLeft()) }
     )
     //TODO: Эта залупа удаляет дубликаты, исправить
 
     private var autoIncrementId = 0
     init {
         addEvent(Event("TODAY","",LocalDate.now(), showDateTag = true, favorite = true))
-        for (i in 0 until 50) {
+        for (i in 0 until 20) {
             val date = getRandomDate()
             addEvent(Event("firstName$i",
                 "lastName$i",

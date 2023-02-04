@@ -37,6 +37,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="16dp"
         android:text="TextView"
+        android:textColor="@color/semi_conspicuous_elements"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_next_celebrate"
         app:layout_constraintTop_toBottomOf="@+id/tv_next_celebrate" />
@@ -49,7 +50,7 @@
         android:alpha="0.3"
         android:text="TextView"
         android:textColor="@color/cyan"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tv_next_celebrate"
         app:layout_constraintEnd_toEndOf="parent"

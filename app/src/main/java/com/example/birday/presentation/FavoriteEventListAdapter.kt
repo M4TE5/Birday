@@ -30,17 +30,22 @@ class FavoriteEventListAdapter :
         return FavoriteEventHolder(view)
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FavoriteEventHolder, position: Int) {
         val event = getItem(position)
-        val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
         holder.tvName.text = "${event.firstName} ${event.lastName}"
-        val dayName = event.date.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
-        val date = event.date.format(dateFormatter)
 
-        holder.tvDaysLeft.text = Event.daysLeft(event.date).toString()
+        val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
+        val dayName = event.getDayName()
+        val dateStr = event.getNextCelebrationDate().format(dateFormatter)
 
-        holder.tvNextCelebrate.text = "$dayName, $date"
+        holder.tvDaysLeft.text = event.daysLeft().toString()
+
+        holder.tvNextCelebrate.text = "$dayName, $dateStr"
+
+        holder.tvYears.text = "Years: ${event.getAge()}, born in ${event.date.year}"
+
         holder.itemView.setOnClickListener {
             onEventClickListener?.invoke(event)
         }

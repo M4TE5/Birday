@@ -45,7 +45,7 @@
                 android:clickable="false"
                 android:text="DECEMBER - 2023"
                 android:textColor="@color/semi_conspicuous_elements"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -68,9 +68,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="TextView"
             android:textColor="@color/conspicuous_elements"
             android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/check_box"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 

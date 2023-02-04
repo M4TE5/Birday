@@ -13,16 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
+import java.lang.Math.abs
 import java.time.format.DateTimeFormatter
+
 @RequiresApi(Build.VERSION_CODES.O)
-class EventInfoFragment: Fragment() {
+class EventInfoFragment : Fragment() {
 
     private lateinit var viewModel: EventInfoViewModel
 
-    private lateinit var tvName : TextView
-    private lateinit var tvDate : TextView
+    private lateinit var tvName: TextView
+    private lateinit var tvDate: TextView
+    private lateinit var tvNextAge: TextView
+    private lateinit var tvDaysLeft: TextView
+
     private lateinit var buttonEdit: Button
     private lateinit var buttonDelete: Button
+    private lateinit var buttonAddNotes: Button
 
     private var eventId: Int = Event.UNDEFINED_ID
 
@@ -30,6 +36,7 @@ class EventInfoFragment: Fragment() {
         super.onCreate(savedInstanceState)
         parseParams()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,49 +53,62 @@ class EventInfoFragment: Fragment() {
         setClickListeners()
     }
 
-    private fun fillTextInfo(){
+    private fun fillTextInfo() {
         viewModel.getEventById(eventId)
         val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
-        viewModel.event.observe(viewLifecycleOwner){
+        viewModel.event.observe(viewLifecycleOwner) {
             tvName.text = "Details - " + it.firstName
-            val dayName = it.date.dayOfWeek.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+            tvNextAge.text = (it.getAge() + 1).toString()
+            tvDaysLeft.text = "${abs(it.daysLeft())} days left"
+
+            val dayName = it.getDayName()
             val date = it.date.format(dateFormatter)
+
             tvDate.text = "$dayName, $date"
         }
     }
 
-    private fun parseParams(){
+    private fun parseParams() {
         val args = requireArguments()
-        if (!args.containsKey(EVENT_ID)){
+        if (!args.containsKey(EVENT_ID)) {
             throw RuntimeException("Param event id is absent")
         }
         eventId = args.getInt(EVENT_ID, Event.UNDEFINED_ID)
     }
 
-    private fun initViews(view: View){
+    private fun initViews(view: View) {
         tvName = view.findViewById(R.id.tv_name)
         tvDate = view.findViewById(R.id.tv_date)
+        tvNextAge = view.findViewById(R.id.tv_next_age)
+        tvDaysLeft = view.findViewById(R.id.tv_days_left)
         buttonEdit = view.findViewById(R.id.button_edit)
         buttonDelete = view.findViewById(R.id.button_delete)
+        buttonAddNotes = view.findViewById(R.id.button_add_notes)
+
     }
 
-    private fun setClickListeners(){
+    private fun setClickListeners() {
         buttonEdit.setOnClickListener {
             launchFragment(EventItemFragment.newInstanceEditEvent(eventId))
         }
 
         buttonDelete.setOnClickListener {
-            viewModel.apply{
-                event.observe(viewLifecycleOwner){
+            viewModel.apply {
+                event.observe(viewLifecycleOwner) {
                     deleteEvent(it)
                 }
             }
-            Toast.makeText(requireContext(),"Deleted",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
             requireActivity().onBackPressed()
+        }
+
+        buttonAddNotes.setOnClickListener {
+            //TODO: addNotes function
+            Toast.makeText(requireContext(), "Скоро...", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun launchFragment(fragment: Fragment){
+    private fun launchFragment(fragment: Fragment) {
         requireActivity().apply {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.place_holder, fragment)
@@ -97,10 +117,10 @@ class EventInfoFragment: Fragment() {
         }
     }
 
-    companion object{
+    companion object {
         const val EVENT_ID = "event_id"
 
-        fun newInstanceShowEvent(eventId: Int) : EventInfoFragment{
+        fun newInstanceShowEvent(eventId: Int): EventInfoFragment {
             return EventInfoFragment().apply {
                 arguments = Bundle().apply {
                     putInt(EVENT_ID, eventId)

@@ -1,6 +1,8 @@
 package com.example.birday.presentation
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,8 @@ import com.example.birday.data.EventListRepositoryImpl
 import com.example.birday.domain.DeleteEventUseCase
 import com.example.birday.domain.Event
 import com.example.birday.domain.GetEventByIdUseCase
+import java.time.LocalDate
+import java.time.Period
 
 class EventInfoViewModel : ViewModel() {
 

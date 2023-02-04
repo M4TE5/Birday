@@ -12,5 +12,6 @@
         android:background="@color/background"
         android:clipToPadding="false"
         android:paddingBottom="100dp"
-        tools:listitem="@layout/favorite_event_item" />
+        tools:listitem="@layout/favorite_event_item"
+        android:overScrollMode="never"/>
 </FrameLayout>

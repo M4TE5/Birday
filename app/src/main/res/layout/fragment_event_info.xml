@@ -8,11 +8,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,20 +34,21 @@
                     android:textColor="@color/conspicuous_elements"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/next_age"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_time_left" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_days_left" />
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="Name"
                     android:textColor="@color/conspicuous_elements"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
                 <TextView
                     android:id="@+id/chinese_sign"
@@ -69,6 +74,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/cyan"
                     app:cornerRadius="100dp"
+                    app:icon="@drawable/baseline_delete_24"
+                    app:iconTint="@color/cyan"
                     app:layout_constraintBottom_toTopOf="@+id/button_add_notes"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -98,6 +105,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/cyan"
                     app:cornerRadius="100dp"
+                    app:icon="@drawable/baseline_notes_24"
+                    app:iconTint="@color/cyan"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -114,7 +123,7 @@
                     app:srcCompat="@drawable/ic_baseline_person_24" />
 
                 <TextView
-                    android:id="@+id/tv_time_left"
+                    android:id="@+id/tv_days_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -175,7 +184,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/tv_next_age"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_time_left" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_days_left" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -211,10 +220,25 @@
                     android:textAllCaps="false"
                     android:textColor="@color/cyan"
                     app:cornerRadius="100dp"
+                    app:icon="@drawable/baseline_edit_note_24"
+                    app:iconTint="@color/cyan"
                     app:layout_constraintBottom_toTopOf="@+id/button_delete"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_chinese_sign" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:tint="@color/cyan"
+                    app:layout_constraintEnd_toStartOf="@id/tv_name"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/balloon" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

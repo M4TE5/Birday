@@ -108,7 +108,7 @@ class EventItemFragment : Fragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val dialog = DatePickerDialog(requireContext(),
-            { view, year, month, dayOfMonth ->
+            { _, year, month, dayOfMonth ->
                 val date = LocalDate.of(year,month + 1, dayOfMonth)
                 val dateStr = date.format(dateFormatter)
                 etDate.setText(dateStr)
