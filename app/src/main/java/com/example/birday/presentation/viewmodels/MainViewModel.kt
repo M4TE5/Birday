@@ -1,4 +1,4 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.birday.data.EventListRepositoryImpl
@@ -10,4 +10,5 @@ class MainViewModel: ViewModel() {
     private val getEventListUseCase = GetEventListUseCase(repository)
 
     val eventList = getEventListUseCase.getEventList()
+
 }

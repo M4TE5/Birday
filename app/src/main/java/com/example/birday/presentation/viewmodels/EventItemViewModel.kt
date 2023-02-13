@@ -1,5 +1,8 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.viewmodels
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +12,7 @@ import com.example.birday.domain.EditEventUseCase
 import com.example.birday.domain.Event
 import com.example.birday.domain.GetEventByIdUseCase
 import java.time.LocalDate
-import kotlin.concurrent.fixedRateTimer
-
+@RequiresApi(Build.VERSION_CODES.O)
 class EventItemViewModel: ViewModel() {
     private val repository = EventListRepositoryImpl
 
@@ -47,10 +49,20 @@ class EventItemViewModel: ViewModel() {
         return true
     }
 
+
     fun editItem(firstName: String, lastName: String, date: LocalDate){
+        Log.d("MyLog","дошли до viewModel")
         if (validateInput(firstName, lastName)){
             _event.value?.let {
-                val event = Event(it.firstName, it.lastName, it.date)
+                val event = Event(
+                    firstName = firstName,
+                    lastName = lastName,
+                    date = date,
+                    showDateTag = it.showDateTag,
+                    favorite = it.favorite,
+                    id = it.id
+                )
+                Log.d("MyLog","кидаем $event в юскейс")
                 editEventUseCase.editEvent(event)
             }
         }

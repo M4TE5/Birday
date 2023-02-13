@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.FavoritesEventsFragment">
+    tools:context=".presentation.fragments.FavoritesEventsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_event_list"
@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingTop="16dp"
         android:paddingBottom="100dp"
-        tools:listitem="@layout/favorite_event_item"
-        android:overScrollMode="never"/>
+        tools:listitem="@layout/favorite_event_item" />
 </FrameLayout>

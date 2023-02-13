@@ -1,7 +1,6 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.birday.R
+import com.example.birday.presentation.EventListAdapter
+import com.example.birday.presentation.activity.MainActivity
+import com.example.birday.presentation.viewmodels.MainViewModel
 
 
 class EventListFragment : Fragment() {

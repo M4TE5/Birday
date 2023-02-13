@@ -1,28 +1,36 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.activity
 
+import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.birday.R
+import com.example.birday.presentation.fragments.EventItemFragment
+import com.example.birday.presentation.fragments.EventListFragment
+import com.example.birday.presentation.fragments.EventStatsFragment
+import com.example.birday.presentation.fragments.FavoritesEventsFragment
+import com.example.birday.presentation.viewmodels.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: MainViewModel
+
+    lateinit var banner: FragmentContainerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        banner = findViewById(R.id.banner_holder)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         setOnNavBarItemClickListeners()
+        launchBannerFragment(EventStatsFragment.newInstanceEventInfo())
     }
     private fun setOnNavBarItemClickListeners() {
         val buttonAdd = findViewById<FloatingActionButton>(R.id.b_add)
@@ -35,12 +43,14 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.main_list -> {
                     launchPageFragment(EventListFragment.newInstance())
+                    launchBannerFragment(EventStatsFragment.newInstanceEventInfo())
                 }
                 R.id.favorite_list -> {
                     launchPageFragment(FavoritesEventsFragment.newInstance())
+                    launchBannerFragment(EventStatsFragment.newInstanceListStats())
                 }
                 R.id.settings -> {
-                    Toast.makeText(this,"Скоро...",Toast.LENGTH_SHORT).show()
+                    saySoon()
                     //TODO: launch settings fragment
                 }
             }
@@ -48,10 +58,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun saySoon(){
+        Toast.makeText(this,"Скоро...",Toast.LENGTH_SHORT).show()
+        val mp = MediaPlayer.create(this,R.raw.soon)
+        mp.start()
+    }
+
     private fun launchPageFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.place_holder, fragment)
+            .replace(R.id.page_holder, fragment)
+            .commit()
+    }
+
+    private fun launchBannerFragment(fragment: Fragment){
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.banner_holder, fragment)
             .commit()
     }
 

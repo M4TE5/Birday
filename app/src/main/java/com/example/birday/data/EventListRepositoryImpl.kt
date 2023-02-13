@@ -1,6 +1,7 @@
 package com.example.birday.data
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,8 @@ import kotlin.random.Random
 object EventListRepositoryImpl : EventListRepository {
 
     private val eventListLD = MutableLiveData<List<Event>>()
+    private val firstEventLD = MutableLiveData<Event>()
+
 
     private val eventList = sortedSetOf<Event>(
         { o1, o2 -> o2.daysLeft() compareTo(o1.daysLeft()) }
@@ -22,7 +25,6 @@ object EventListRepositoryImpl : EventListRepository {
 
     private var autoIncrementId = 0
     init {
-        addEvent(Event("TODAY","",LocalDate.now(), showDateTag = true, favorite = true))
         for (i in 0 until 20) {
             val date = getRandomDate()
             addEvent(Event("firstName$i",
@@ -31,6 +33,7 @@ object EventListRepositoryImpl : EventListRepository {
                 i % 5 == 0,
                 i % 5 == 0))
         }
+        addEvent(Event("TODAY","",LocalDate.now(), showDateTag = true, favorite = true))
     }
     private fun getRandomDate(): LocalDate{
         val day = Random.nextInt(1,29)
@@ -51,10 +54,11 @@ object EventListRepositoryImpl : EventListRepository {
     }
 
     override fun editEvent(event: Event) {
+        Log.d("MyLog","дошли")
         val oldItem = getEventById(event.id)
         eventList.remove(oldItem)
         addEvent(event)
-        updateList()
+        Log.d("MyLog","added $event")
     }
 
     override fun getEventById(id: Int): Event? {
@@ -65,7 +69,15 @@ object EventListRepositoryImpl : EventListRepository {
         return eventListLD
     }
 
+    override fun getListSize(): Int {
+        return eventList.size
+    }
+
+    override fun getFirstEvent(): LiveData<Event> {
+        return firstEventLD
+    }
     private fun updateList() {
         eventListLD.value = eventList.toList()
+        firstEventLD.value = eventList.first()
     }
 }
