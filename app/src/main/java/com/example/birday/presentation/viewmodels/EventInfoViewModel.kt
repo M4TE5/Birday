@@ -1,4 +1,4 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.viewmodels
 
 import android.os.Build
 import android.widget.Toast

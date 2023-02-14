@@ -1,9 +1,10 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.fragments
 
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
+import com.example.birday.presentation.viewmodels.EventItemViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -35,7 +38,6 @@ class EventItemFragment : Fragment() {
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,29 +70,43 @@ class EventItemFragment : Fragment() {
         fillTextInfo()
         tvHeader.text = getString(R.string.edit_event)
         icon.setImageResource(R.drawable.baseline_edit_note_24)
-
         buttonSave.setOnClickListener {
-            val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
-            viewModel.editItem(
-                etFirstName.text.toString(),
-                etLastName.text.toString(),
-                date
-            )
-            requireActivity().onBackPressed()
+            if(validateInput()){
+                Log.d("MyLog","ищем $eventId")
+                Log.d("MyLog","вот он ${viewModel.event.value?.firstName}")
+                val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
+                viewModel.editItem(
+                    etFirstName.text.toString(),
+                    etLastName.text.toString(),
+                    date
+                )
+                requireActivity().onBackPressed()
+            }
         }
     }
 
     private fun launchAddMode() {
         buttonSave.setOnClickListener {
-            val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
-            viewModel.addItem(
-                etFirstName.text.toString(),
-                etLastName.text.toString(),
-                date
-            )
-            requireActivity().onBackPressed()
+            if (validateInput()){
+                val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
+                viewModel.addItem(
+                    etFirstName.text.toString(),
+                    etLastName.text.toString(),
+                    date
+                )
+                requireActivity().onBackPressed()
+            }
         }
     }
+
+   private fun validateInput(): Boolean{
+       val dateStr = etDate.text
+       val firstName = etFirstName.text
+       val lastName = etLastName.text
+       if(firstName.isNotEmpty() && lastName.isNotEmpty() && dateStr.isNotEmpty()) return true
+       Toast.makeText(requireContext(),"Incorrect input", Toast.LENGTH_SHORT).show()
+       return false
+   }
 
     private fun fillTextInfo() {
         viewModel.getItemById(eventId)

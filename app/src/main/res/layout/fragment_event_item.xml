@@ -5,7 +5,9 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:backgroundTint="@color/background"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/icon"

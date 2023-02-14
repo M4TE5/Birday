@@ -1,4 +1,4 @@
-package com.example.birday.presentation
+package com.example.birday.presentation.fragments
 
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
+import com.example.birday.presentation.viewmodels.EventInfoViewModel
 import java.lang.Math.abs
 import java.time.format.DateTimeFormatter
 
@@ -84,7 +85,6 @@ class EventInfoFragment : Fragment() {
         buttonEdit = view.findViewById(R.id.button_edit)
         buttonDelete = view.findViewById(R.id.button_delete)
         buttonAddNotes = view.findViewById(R.id.button_add_notes)
-
     }
 
     private fun setClickListeners() {

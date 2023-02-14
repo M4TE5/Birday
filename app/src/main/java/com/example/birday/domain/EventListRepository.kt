@@ -13,4 +13,6 @@ interface EventListRepository {
     fun getEventById(id: Int): Event?
 
     fun getEventList(): LiveData<List<Event>>
+    fun getFirstEvent():  LiveData<Event>
+    fun getListSize(): Int
 }

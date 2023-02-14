@@ -3,53 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <FrameLayout
-            android:id="@+id/stats_place_holder"
-            android:layout_width="wrap_content"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/banner_holder"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-        </FrameLayout>
+            tools:layout="@layout/fragment_event_stats" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/place_holder"
-            android:name="com.example.birday.presentation.EventListFragment"
+            android:id="@+id/page_holder"
+            android:name="com.example.birday.presentation.fragments.EventListFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stats_place_holder"
+            app:layout_constraintTop_toBottomOf="@+id/banner_holder"
             tools:layout="@layout/fragment_event_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/place_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_event_info" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginStart="0dp"
         android:backgroundTint="@color/menu"
+        android:paddingStart="-20dp"
         app:elevation="0dp"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="10dp"
         app:navigationIconTint="@color/transparent"
-        app:titleMarginStart="0dp"
-        android:layout_marginStart="0dp"
-        android:paddingStart="-20dp">
+        app:titleMarginStart="0dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bNav"
@@ -58,33 +66,31 @@
             android:layout_gravity="end"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:paddingEnd="140dp"
-            android:paddingStart="10dp"
             android:background="@color/transparent"
             android:backgroundTint="@color/transparent"
+            android:defaultFocusHighlightEnabled="true"
             android:elevation="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="140dp"
             app:backgroundTint="@color/transparent"
             app:elevation="0dp"
             app:itemIconTint="@drawable/bottom_nav_selector"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/bottom_menu"
-            tools:visibility="visible"
-            android:defaultFocusHighlightEnabled="true"
-            />
+            app:menu="@menu/bottom_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/b_add"
+        style="?attr/floatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:contentDescription="@string/new_event"
+        android:focusable="true"
         android:src="@drawable/ic_baseline_celebration_24"
         app:backgroundTint="@color/cyan"
         app:layout_anchor="@id/bottomAppBar"
         app:shapeAppearanceOverlay="@style/fab_square"
-        app:tint="@color/menu"
-        android:focusable="true"
-        style="?attr/floatingActionButtonStyle"/>
+        app:tint="@color/menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

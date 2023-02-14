@@ -14,5 +14,7 @@
     <color name="conspicuous_elements">#FF000000</color>
     <color name="semi_conspicuous_elements">#939393</color>
     <color name="inconspicuous_elements">#E4E4E4</color>
+    <color name="banner">#F5F5F5</color>
+    <color name="banner_stroke">#66939393</color>
     <color name="transparent">#00000000</color>
 </resources>

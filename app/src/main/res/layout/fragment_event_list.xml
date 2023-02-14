@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingTop="16dp"
         android:paddingBottom="100dp"
-        tools:listitem="@layout/event_item"
-        android:overScrollMode="never"/>
+        tools:listitem="@layout/event_item" />
 </FrameLayout>
