@@ -5,7 +5,7 @@
     android:id="@+id/banner_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".presentation.fragments.EventStatsFragment">
+    tools:context=".presentation.fragments.BannerFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:text="Name Surname"
                 android:textColor="@color/conspicuous_elements"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/icon"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="Thursday, May 18, 2002. 332 days left piece of shit"
                 android:textColor="@color/conspicuous_elements"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/icon"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_header" />
@@ -57,13 +57,13 @@
                 android:layout_marginEnd="16dp"
                 android:text="Years: 31"
                 android:textColor="@color/conspicuous_elements"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/icon"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_info" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/icon"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="16dp"

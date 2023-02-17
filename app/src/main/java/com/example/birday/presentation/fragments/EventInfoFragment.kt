@@ -1,5 +1,7 @@
 package com.example.birday.presentation.fragments
 
+import android.icu.util.ChineseCalendar
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
+import com.example.birday.presentation.activity.MainActivity
 import com.example.birday.presentation.viewmodels.EventInfoViewModel
 import java.lang.Math.abs
 import java.time.format.DateTimeFormatter
@@ -26,6 +29,8 @@ class EventInfoFragment : Fragment() {
     private lateinit var tvDate: TextView
     private lateinit var tvNextAge: TextView
     private lateinit var tvDaysLeft: TextView
+    private lateinit var tvZodiacSign: TextView
+    private lateinit var tvChineseSign: TextView
 
     private lateinit var buttonEdit: Button
     private lateinit var buttonDelete: Button
@@ -64,8 +69,10 @@ class EventInfoFragment : Fragment() {
 
             val dayName = it.getDayName()
             val date = it.date.format(dateFormatter)
-
             tvDate.text = "$dayName, $date"
+
+            tvZodiacSign.text = it.getZodiacSign()
+            tvChineseSign.text = it.getChineseSign()
         }
     }
 
@@ -82,6 +89,8 @@ class EventInfoFragment : Fragment() {
         tvDate = view.findViewById(R.id.tv_date)
         tvNextAge = view.findViewById(R.id.tv_next_age)
         tvDaysLeft = view.findViewById(R.id.tv_days_left)
+        tvZodiacSign = view.findViewById(R.id.tv_zodiac_sign)
+        tvChineseSign = view.findViewById(R.id.tv_chinese_sign)
         buttonEdit = view.findViewById(R.id.button_edit)
         buttonDelete = view.findViewById(R.id.button_delete)
         buttonAddNotes = view.findViewById(R.id.button_add_notes)
@@ -99,12 +108,14 @@ class EventInfoFragment : Fragment() {
                 }
             }
             Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
-            requireActivity().onBackPressed()
+            launchPageFragment(EventListFragment.newInstance()) // - тэг обновляется, но нет анимации
+            //requireActivity().onBackPressed() - будет анимация удаления, но не будет обновляться тэг
+            //TODO: чото сделать
         }
 
         buttonAddNotes.setOnClickListener {
             //TODO: addNotes function
-            Toast.makeText(requireContext(), "Скоро...", Toast.LENGTH_SHORT).show()
+            saySoon()
         }
     }
 
@@ -113,6 +124,21 @@ class EventInfoFragment : Fragment() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.place_holder, fragment)
                 .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    private fun saySoon(){
+        Toast.makeText(requireContext(),"Скоро...",Toast.LENGTH_SHORT).show()
+        val mp = MediaPlayer.create(requireContext(),R.raw.soon)
+        mp.start()
+    }
+
+    private fun launchPageFragment(fragment: Fragment) {
+        requireActivity().apply {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.page_holder, fragment)
                 .commit()
         }
     }

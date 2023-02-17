@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -72,8 +73,6 @@ class EventItemFragment : Fragment() {
         icon.setImageResource(R.drawable.baseline_edit_note_24)
         buttonSave.setOnClickListener {
             if(validateInput()){
-                Log.d("MyLog","ищем $eventId")
-                Log.d("MyLog","вот он ${viewModel.event.value?.firstName}")
                 val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
                 viewModel.editItem(
                     etFirstName.text.toString(),

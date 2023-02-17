@@ -33,20 +33,29 @@ class FavoritesEventsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         initViews(view)
         setupRecyclerView()
-
-        viewModel.eventList.observe(viewLifecycleOwner){
+        launchBannerFragment(BannerFragment.newInstanceListStats())
+        viewModel.eventList.observe(viewLifecycleOwner) {
             adapter.submitList(it.filter { item -> item.favorite })
         }
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         adapter = FavoriteEventListAdapter()
         rvFavoriteEventList.adapter = adapter
         rvFavoriteEventList.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun initViews(view: View){
+    private fun initViews(view: View) {
         rvFavoriteEventList = view.findViewById(R.id.rv_favorite_event_list)
+    }
+
+    private fun launchBannerFragment(fragment: Fragment) {
+        requireActivity().apply {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.banner_holder, fragment)
+                .commit()
+        }
     }
 
     companion object {

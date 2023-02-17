@@ -1,6 +1,5 @@
 package com.example.birday.presentation.fragments
 
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,21 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.BannerViewModel
 import com.google.android.material.textfield.TextInputEditText
-import org.w3c.dom.Text
 import java.lang.Math.abs
 import java.time.format.DateTimeFormatter
 
-class EventStatsFragment : Fragment() {
+class BannerFragment : Fragment() {
 
     private lateinit var viewModel: BannerViewModel
 
@@ -32,6 +28,7 @@ class EventStatsFragment : Fragment() {
     private lateinit var tvInfo: TextView
     private lateinit var tvCount: TextView
     private lateinit var etSearch: TextInputEditText
+    private lateinit var icon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +39,7 @@ class EventStatsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_event_stats, container, false)
+        return layoutInflater.inflate(R.layout.fragment_banner, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +65,7 @@ class EventStatsFragment : Fragment() {
         tvInfo = view.findViewById(R.id.tv_info)
         tvCount = view.findViewById(R.id.tv_count)
         etSearch = view.findViewById(R.id.et_search)
+        icon = view.findViewById(R.id.icon)
     }
 
     private fun launchRightMode() {
@@ -93,6 +91,7 @@ class EventStatsFragment : Fragment() {
     }
 
     private fun launchListStatsMode() {
+        icon.setImageResource(R.drawable.candle)
         tvHeader.text = "Statistics"
         tvInfo.text = "Random staff" //TODO: Random statistic facts
         tvCount.text = "Events: ${viewModel.getListSize()}"
@@ -105,14 +104,14 @@ class EventStatsFragment : Fragment() {
         private const val MODE_UNKNOWN = ""
 
         fun newInstanceEventInfo() =
-            EventStatsFragment().apply {
+            BannerFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EVENT_INFO)
                 }
             }
 
-        fun newInstanceListStats(): EventStatsFragment =
-            EventStatsFragment().apply {
+        fun newInstanceListStats(): BannerFragment =
+            BannerFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_LIST_STATS)
                 }

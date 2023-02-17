@@ -33,6 +33,7 @@ class EventListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         initViews(view)
+        launchBannerFragment(BannerFragment.newInstanceEventInfo())
         setupRecyclerView()
         viewModel.eventList.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -69,7 +70,14 @@ class EventListFragment : Fragment() {
                 .commit()
         }
     }
-
+    private fun launchBannerFragment(fragment: Fragment){
+        requireActivity().apply {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.banner_holder, fragment)
+                .commit()
+        }
+    }
     companion object {
         fun newInstance() = EventListFragment()
     }
