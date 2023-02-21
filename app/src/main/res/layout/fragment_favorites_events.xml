@@ -12,7 +12,7 @@
         android:background="@color/background"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingTop="16dp"
+        android:paddingTop="30dp"
         android:paddingBottom="100dp"
         tools:listitem="@layout/favorite_event_item" />
 </FrameLayout>
