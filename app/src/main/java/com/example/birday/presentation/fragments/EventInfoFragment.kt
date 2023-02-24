@@ -109,7 +109,7 @@ class EventInfoFragment : Fragment() {
             }
             Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
             launchPageFragment(EventListFragment.newInstance()) // - тэг обновляется, но нет анимации
-            //requireActivity().onBackPressed() - будет анимация удаления, но не будет обновляться тэг
+            //requireActivity().onBackPressed() // - будет анимация удаления, но не будет обновляться тэг
             //TODO: чото сделать
         }
 

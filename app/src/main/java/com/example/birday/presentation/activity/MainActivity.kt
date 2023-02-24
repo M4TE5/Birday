@@ -4,18 +4,14 @@ import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import com.example.birday.R
 import com.example.birday.presentation.fragments.EventItemFragment
 import com.example.birday.presentation.fragments.EventListFragment
-import com.example.birday.presentation.fragments.BannerFragment
 import com.example.birday.presentation.fragments.FavoritesEventsFragment
 import com.example.birday.presentation.viewmodels.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,19 +25,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        setOnBannerSwitchStateListener()
         setOnNavBarItemClickListeners()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
-    private fun setOnBannerSwitchStateListener(){
-        val buttonHideBanner = findViewById<CardView>(R.id.button_hide_banner)
-        val banner = findViewById<FragmentContainerView>(R.id.banner_holder)
-        buttonHideBanner.setOnClickListener {
-            if(banner.visibility == View.GONE) banner.visibility = View.VISIBLE
-            else banner.visibility = View.GONE
-        }
-    }
     private fun setOnNavBarItemClickListeners() {
         val buttonAdd = findViewById<FloatingActionButton>(R.id.b_add)
         buttonAdd.setOnClickListener {

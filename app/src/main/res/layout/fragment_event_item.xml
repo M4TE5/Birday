@@ -60,18 +60,33 @@
         app:layout_constraintTop_toBottomOf="@+id/icon"
         app:srcCompat="@drawable/ic_baseline_person_24" />
 
-    <EditText
-        android:id="@+id/et_first_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_first_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@drawable/search_field_selector"
+        app:boxStrokeWidth="1dp"
         android:hint="@string/insert_first_name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/person_image" />
+        app:layout_constraintTop_toBottomOf="@+id/person_image" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/et_last_name"
@@ -84,7 +99,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/et_first_name" />
+        app:layout_constraintTop_toBottomOf="@+id/til_first_name" />
 
     <EditText
         android:id="@+id/et_date"
