@@ -18,9 +18,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.birday.R
+import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
+import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -29,17 +33,15 @@ class EventItemFragment : Fragment() {
 
     private lateinit var viewModel: EventItemViewModel
 
-    private lateinit var etFirstName: EditText
-    private lateinit var etLastName: EditText
-    private lateinit var etDate: EditText
-    private lateinit var buttonSave: Button
-    private lateinit var tvHeader: TextView
-    private lateinit var icon: ImageView
+    private lateinit var binding: FragmentEventItemBinding
+
+    private val args by navArgs<EventItemFragmentArgs>()
 
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
 
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
@@ -55,8 +57,9 @@ class EventItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentEventItemBinding.bind(view)
         viewModel = ViewModelProvider(this)[EventItemViewModel::class.java]
-        initViews(view)
+
         setDatePicker()
         launchRightMode()
     }
@@ -67,27 +70,27 @@ class EventItemFragment : Fragment() {
         }
     }
 
-    private fun launchEditMode() {
+    private fun launchEditMode() = with(binding){
         fillTextInfo()
         tvHeader.text = getString(R.string.edit_event)
         icon.setImageResource(R.drawable.baseline_edit_note_24)
-        buttonSave.setOnClickListener {
+        bSave.setOnClickListener {
             if(validateInput()){
-                val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
+                val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.editItem(
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
                     date
                 )
-                requireActivity().onBackPressed()
+                findNavController().popBackStack(R.id.eventListFragment, false)
             }
         }
     }
 
-    private fun launchAddMode() {
-        buttonSave.setOnClickListener {
+    private fun launchAddMode() = with(binding){
+        bSave.setOnClickListener {
             if (validateInput()){
-                val date = LocalDate.parse(etDate.text.toString(), dateFormatter)
+                val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.addItem(
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
@@ -98,10 +101,10 @@ class EventItemFragment : Fragment() {
         }
     }
 
-   private fun validateInput(): Boolean{
-       val dateStr = etDate.text
-       val firstName = etFirstName.text
-       val lastName = etLastName.text
+   private fun validateInput(): Boolean = with(binding){
+       val dateStr = etSelectDate.text.toString()
+       val firstName = etFirstName.text.toString()
+       val lastName = etLastName.text.toString()
        if(firstName.isNotEmpty() && lastName.isNotEmpty() && dateStr.isNotEmpty()) return true
        Toast.makeText(requireContext(),"Incorrect input", Toast.LENGTH_SHORT).show()
        return false
@@ -110,9 +113,11 @@ class EventItemFragment : Fragment() {
     private fun fillTextInfo() {
         viewModel.getItemById(eventId)
         viewModel.event.observe(viewLifecycleOwner) {
-            etFirstName.setText(it.firstName)
-            etLastName.setText(it.lastName)
-            etDate.setText(it.date.format(dateFormatter))
+            binding.apply {
+                etFirstName.setText(it.firstName)
+                etLastName.setText(it.lastName)
+                etSelectDate.setText(it.date.format(dateFormatter))
+            }
         }
     }
 
@@ -126,10 +131,10 @@ class EventItemFragment : Fragment() {
             { _, year, month, dayOfMonth ->
                 val date = LocalDate.of(year,month + 1, dayOfMonth)
                 val dateStr = date.format(dateFormatter)
-                etDate.setText(dateStr)
+                binding.etSelectDate.setText(dateStr)
             }, year, month, day)
 
-        etDate.setOnClickListener {
+        binding.etSelectDate.setOnClickListener {
             hideKeyboard()
             dialog.show()
         }
@@ -144,55 +149,26 @@ class EventItemFragment : Fragment() {
         }
     }
     private fun parseParams() {
-        val args = requireArguments()
-        if (!args.containsKey(SCREEN_MODE)) {
-            throw RuntimeException("Param screen mode is absent")
-        }
-        val mode = args.getString(SCREEN_MODE)
+        screenMode = getScreenMode()
+        eventId = getEventId()
 
-        if (mode != MODE_EDIT && mode != MODE_ADD) {
-            throw RuntimeException("Unknown screen mode $mode")
+        if (screenMode != MODE_EDIT && screenMode != MODE_ADD) {
+            throw RuntimeException("Unknown screen mode $screenMode")
         }
-        screenMode = mode
+
         if (screenMode == MODE_EDIT) {
-            if (!args.containsKey(EVENT_ID)) {
-                throw RuntimeException("Param event id is absent")
+            if (eventId == Event.UNDEFINED_ID) {
+                throw RuntimeException("Param event id is undefined")
             }
-            eventId = args.getInt(EVENT_ID, Event.UNDEFINED_ID)
         }
     }
 
-    private fun initViews(view: View) {
-        etFirstName = view.findViewById(R.id.et_first_name)
-        etLastName = view.findViewById(R.id.et_last_name)
-        buttonSave = view.findViewById(R.id.b_save)
-        tvHeader = view.findViewById(R.id.tv_header)
-        icon = view.findViewById(R.id.icon)
-        etDate = view.findViewById(R.id.et_date)
-    }
+    private fun getEventId(): Int = args.eventId
+    private fun getScreenMode(): String = args.screenMode
 
     companion object {
-        private const val SCREEN_MODE = "screen_mode"
-        private const val MODE_ADD = "mode_add"
-        private const val MODE_EDIT = "mode_edit"
-        private const val EVENT_ID = "event_id"
+        const val MODE_ADD = "mode_add"
+        const val MODE_EDIT = "mode_edit"
         private const val MODE_UNKNOWN = ""
-
-        fun newInstanceEditEvent(eventId: Int): EventItemFragment {
-            return EventItemFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(EVENT_ID, eventId)
-                    putString(SCREEN_MODE, MODE_EDIT)
-                }
-            }
-        }
-
-        fun newInstanceAddEvent(): EventItemFragment {
-            return EventItemFragment().apply {
-                arguments = Bundle().apply {
-                    putString(SCREEN_MODE, MODE_ADD)
-                }
-            }
-        }
     }
 }

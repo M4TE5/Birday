@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/main_list"
+        android:id="@id/main_list"
         android:icon="@drawable/ic_baseline_cake_24"
-        android:title="General list"
+        android:title="Main list"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/favorite_list"
+        android:id="@id/favorite_list"
         android:icon="@drawable/ic_baseline_star_24"
         android:title="Favorite list"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/settings"
+        android:id="@id/settings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Settings"
         app:showAsAction="always"/>

@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.FavoritesEventsFragment">
+    android:animateLayoutChanges="true"
+    android:background="@color/background"
+    tools:context=".presentation.fragments.FavoriteEventsFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/button_hide_banner"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
-        android:alpha="0.9"
+        android:alpha="0.8"
         android:backgroundTint="@color/contrast"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
