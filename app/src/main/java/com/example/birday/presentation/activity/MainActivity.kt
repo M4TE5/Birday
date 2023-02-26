@@ -1,76 +1,35 @@
 package com.example.birday.presentation.activity
 
-import android.media.MediaPlayer
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.birday.R
-import com.example.birday.presentation.fragments.EventItemFragment
-import com.example.birday.presentation.fragments.EventListFragment
-import com.example.birday.presentation.fragments.FavoritesEventsFragment
+import com.example.birday.databinding.ActivityMainBinding
 import com.example.birday.presentation.viewmodels.MainViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        setOnNavBarItemClickListeners()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        val navHost = supportFragmentManager.findFragmentById(R.id.page_holder) as NavHostFragment
+        val navController = navHost.navController //fragmentContainer (page_holder)
+
+        NavigationUI.setupWithNavController(binding.bNav, navController)//связали bNav и page_holder
     }
 
-    private fun setOnNavBarItemClickListeners() {
-        val buttonAdd = findViewById<FloatingActionButton>(R.id.b_add)
-        buttonAdd.setOnClickListener {
-            launchAddFragment(EventItemFragment.newInstanceAddEvent())
-        }
-
-        val bNav = findViewById<BottomNavigationView>(R.id.bNav)
-        bNav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.main_list -> {
-                    launchPageFragment(EventListFragment.newInstance())
-                }
-                R.id.favorite_list -> {
-                    launchPageFragment(FavoritesEventsFragment.newInstance())
-                }
-                R.id.settings -> {
-                    saySoon()
-                    //TODO: launch settings fragment
-                }
-            }
-            true
-        }
-    }
-
-    private fun saySoon(){
-        Toast.makeText(this,"Скоро...",Toast.LENGTH_SHORT).show()
-        val mp = MediaPlayer.create(this,R.raw.soon)
-        mp.start()
-    }
-
-    private fun launchPageFragment(fragment: Fragment) {
-        supportFragmentManager.popBackStack()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.page_holder, fragment)
-            .commit()
-    }
-
-    private fun launchAddFragment(fragment: Fragment) {
-        supportFragmentManager.popBackStack()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.place_holder, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
 }

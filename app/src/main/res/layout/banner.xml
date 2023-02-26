@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/banner_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".presentation.fragments.BannerFragment">
+
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

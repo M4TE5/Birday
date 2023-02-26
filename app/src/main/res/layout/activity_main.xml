@@ -6,32 +6,15 @@
     android:layout_height="match_parent"
     android:visibility="visible">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/page_holder"
-            android:name="com.example.birday.presentation.fragments.EventListFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout="@layout/fragment_event_list" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/place_holder"
+        android:id="@+id/page_holder"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/tabs_graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        tools:layout="@layout/fragment_event_info"
-        tools:visibility="invisible" />
+        android:layout_gravity="top"
+        tools:layout="@layout/fragment_event_list" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -77,6 +60,7 @@
         android:clickable="true"
         android:contentDescription="@string/new_event"
         android:focusable="true"
+        android:onClick="buttonAddOnClickListener"
         android:src="@drawable/ic_baseline_celebration_24"
         app:backgroundTint="@color/cyan"
         app:layout_anchor="@id/bottomAppBar"

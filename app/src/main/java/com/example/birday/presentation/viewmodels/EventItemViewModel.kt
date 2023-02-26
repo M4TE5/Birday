@@ -51,7 +51,6 @@ class EventItemViewModel: ViewModel() {
 
 
     fun editItem(firstName: String, lastName: String, date: LocalDate){
-        Log.d("MyLog","дошли до viewModel")
         if (validateInput(firstName, lastName)){
             _event.value?.let {
                 val event = Event(
@@ -62,7 +61,6 @@ class EventItemViewModel: ViewModel() {
                     favorite = it.favorite,
                     id = it.id
                 )
-                Log.d("MyLog","кидаем $event в юскейс")
                 editEventUseCase.editEvent(event)
             }
         }
