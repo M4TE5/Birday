@@ -60,7 +60,7 @@
         android:clickable="true"
         android:contentDescription="@string/new_event"
         android:focusable="true"
-        android:onClick="buttonAddOnClickListener"
+        android:onClick="onButtonAddClickListener"
         android:src="@drawable/ic_baseline_celebration_24"
         app:backgroundTint="@color/cyan"
         app:layout_anchor="@id/bottomAppBar"
