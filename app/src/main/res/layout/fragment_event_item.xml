@@ -5,10 +5,10 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:backgroundTint="@color/background"
-    tools:context=".presentation.fragments.EventItemFragment"
-    android:clickable="true">
+    android:background="@color/banner"
+    android:clickable="true"
+    tools:context=".presentation.fragments.EventItemFragment">
+
 
     <ImageView
         android:id="@+id/icon"
@@ -96,18 +96,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/insert_last_name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@drawable/search_field_selector"
         app:boxStrokeWidth="1dp"
-        android:hint="@string/insert_last_name"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/til_first_name" >
+        app:layout_constraintTop_toBottomOf="@+id/til_first_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_last_name"
@@ -124,26 +124,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/select_a_date"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@drawable/search_field_selector"
         app:boxStrokeWidth="1dp"
-        android:hint="@string/select_a_date"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/til_last_name" >
+        app:layout_constraintTop_toBottomOf="@+id/til_last_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_select_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:focusable="false"/>
+            android:paddingBottom="10dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -193,4 +193,5 @@
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toEndOf="@id/tv_consider_the_year"
         app:layout_constraintTop_toTopOf="@id/tv_consider_the_year" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

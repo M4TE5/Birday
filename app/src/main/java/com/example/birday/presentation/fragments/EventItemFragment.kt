@@ -24,12 +24,13 @@ import com.example.birday.R
 import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
-class EventItemFragment : Fragment() {
+class EventItemFragment : BottomSheetDialogFragment() {
 
     private lateinit var viewModel: EventItemViewModel
 

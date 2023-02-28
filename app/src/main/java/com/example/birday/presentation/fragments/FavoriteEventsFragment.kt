@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.birday.R
 import com.example.birday.databinding.FragmentFavoriteEventsBinding
@@ -32,7 +33,6 @@ class FavoriteEventsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFavoriteEventsBinding.bind(view)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
         fillBannerInfo()
         setupRecyclerView()
         viewModel.eventList.observe(viewLifecycleOwner) {

@@ -17,7 +17,11 @@
         android:visibility="visible"
         app:cardCornerRadius="100dp"
         app:cardElevation="0dp"
-        app:contentPadding="6dp"
+        app:contentPadding="0dp"
+        app:contentPaddingBottom="3dp"
+        app:contentPaddingLeft="6dp"
+        app:contentPaddingRight="6dp"
+        app:contentPaddingTop="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
