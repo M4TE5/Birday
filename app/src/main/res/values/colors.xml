@@ -10,6 +10,7 @@
     <color name="background">#FFFFFFFF</color>
     <color name="menu">#0F0F0F</color>
     <color name="cyan">#5ABF94</color>
+    <color name="primary_material_dark">#5ABF94</color>
     <color name="bottom_nav_menu_inactive_elements">#949494</color>
     <color name="conspicuous_elements">#FF000000</color>
     <color name="semi_conspicuous_elements">#939393</color>
@@ -17,5 +18,6 @@
     <color name="banner">#F5F5F5</color>
     <color name="banner_stroke">#66939393</color>
     <color name="contrast">#1F1F1F</color>
+    <color name="bottom_dialog">#FFFFFF</color>
     <color name="transparent">#00000000</color>
 </resources>

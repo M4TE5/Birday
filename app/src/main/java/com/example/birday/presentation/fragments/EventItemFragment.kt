@@ -48,6 +48,10 @@ class EventItemFragment : BottomSheetDialogFragment() {
         parseParams()
     }
 
+    override fun getTheme(): Int {
+        return R.style.AppBottomSheetDialogTheme
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +64,9 @@ class EventItemFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEventItemBinding.bind(view)
         viewModel = ViewModelProvider(this)[EventItemViewModel::class.java]
-
+        binding.bCancel.setOnClickListener {
+            dismiss()
+        }
         setDatePicker()
         launchRightMode()
     }
@@ -74,8 +80,9 @@ class EventItemFragment : BottomSheetDialogFragment() {
     private fun launchEditMode() = with(binding){
         fillTextInfo()
         tvHeader.text = getString(R.string.edit_event)
+        bInsertItem.text = "Update event"
         icon.setImageResource(R.drawable.baseline_edit_note_24)
-        bSave.setOnClickListener {
+        bInsertItem.setOnClickListener {
             if(validateInput()){
                 val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.editItem(
@@ -89,7 +96,8 @@ class EventItemFragment : BottomSheetDialogFragment() {
     }
 
     private fun launchAddMode() = with(binding){
-        bSave.setOnClickListener {
+        bInsertItem.text = "Insert event"
+        bInsertItem.setOnClickListener {
             if (validateInput()){
                 val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.addItem(

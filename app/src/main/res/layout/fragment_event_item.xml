@@ -5,7 +5,6 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/banner"
     android:clickable="true"
     tools:context=".presentation.fragments.EventItemFragment">
 
@@ -83,7 +82,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_first_name"
+            android:singleLine="true"
+            android:maxLength="32"
             android:layout_width="match_parent"
+            android:textColor="@color/conspicuous_elements"
             android:layout_height="match_parent"
             android:paddingTop="10dp"
             android:paddingBottom="10dp" />
@@ -111,10 +113,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_last_name"
+            android:singleLine="true"
+            android:maxLength="32"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textColor="@color/conspicuous_elements" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -139,26 +144,14 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_select_date"
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="false"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textColor="@color/conspicuous_elements" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/b_save"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/save"
-        app:cornerRadius="100dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/tv_consider_the_year" />
 
     <TextView
         android:id="@+id/tv_consider_the_year"
@@ -193,5 +186,39 @@
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toEndOf="@id/tv_consider_the_year"
         app:layout_constraintTop_toTopOf="@id/tv_consider_the_year" />
+
+    <TextView
+        android:id="@+id/b_insert_item"
+        android:layout_width="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:padding="4dp"
+        android:text="Insert item"
+        android:textAllCaps="true"
+        android:textColor="@color/conspicuous_elements"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@+id/switch_consider_the_year"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/b_cancel"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:clickable="true"
+        android:padding="4dp"
+        android:text="Cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/cyan"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/b_insert_item"
+        app:layout_constraintEnd_toStartOf="@+id/b_insert_item"
+        app:layout_constraintTop_toTopOf="@+id/b_insert_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

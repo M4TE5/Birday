@@ -3,6 +3,7 @@ package com.example.birday.presentation.fragments
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,6 +84,12 @@ class EventInfoFragment : Fragment() {
                 eventId
             )
             findNavController().navigate(direction)
+            buttonEdit.apply {
+                isEnabled = false
+                Handler().postDelayed({
+                    this.isEnabled = true
+                }, 1500)
+            }
         }
 
         buttonDelete.setOnClickListener {
