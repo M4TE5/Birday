@@ -36,11 +36,22 @@ class FavoriteEventsFragment : Fragment() {
         fillBannerInfo()
         setupRecyclerView()
         viewModel.eventList.observe(viewLifecycleOwner) {
-            adapter.submitList(it.filter { item -> item.favorite })
+            val list = it.filter { item -> item.favorite }
+            if (list.isNotEmpty()) {
+                adapter.submitList(it.filter { item -> item.favorite })
+                showNoFavoritesMessage(false)
+            }
+            else showNoFavoritesMessage(true)
         }
+
         binding.buttonHideBanner.setOnClickListener {
             if (binding.banner.bannerLayout.visibility == View.VISIBLE) hideBanner()
             else showBanner()
+        }
+
+        adapter.onEventClickListener = {
+            val direction = FavoriteEventsFragmentDirections.actionFavoriteEventsFragmentToNotesFragment(it.id)
+            findNavController().navigate(direction)
         }
     }
 
@@ -93,5 +104,18 @@ class FavoriteEventsFragment : Fragment() {
         tvHeader.text = "Statistics"
         tvInfo.text = "Random staff" //TODO: Random statistic facts
         tvCount.text = "Events: ${viewModel.getListSize()}"
+    }
+
+    private fun showNoFavoritesMessage(show: Boolean){
+        binding.apply {
+            if (show){
+                imEmoji.visibility = View.VISIBLE
+                tvNoFavoritesMessage.visibility = View.VISIBLE
+            }
+            else {
+                imEmoji.visibility = View.INVISIBLE
+                tvNoFavoritesMessage.visibility = View.INVISIBLE
+            }
+        }
     }
 }

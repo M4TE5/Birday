@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_eventInfoFragment_to_eventItemFragment"
             app:destination="@id/eventItemFragment" />
+        <action
+            android:id="@+id/action_eventInfoFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
     </fragment>
     <dialog
         android:id="@+id/eventItemFragment"
@@ -44,5 +47,15 @@
         <argument
             android:name="screenMode"
             app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/notesFragment"
+        android:name="com.example.birday.presentation.fragments.NotesFragment"
+        android:label="fragment_notes"
+        tools:layout="@layout/fragment_notes" >
+        <argument
+            android:name="eventId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </dialog>
 </navigation>

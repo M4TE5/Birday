@@ -4,4 +4,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>
     </style>
+
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

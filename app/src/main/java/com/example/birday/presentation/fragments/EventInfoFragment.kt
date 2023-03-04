@@ -105,8 +105,8 @@ class EventInfoFragment : Fragment() {
         }
 
         buttonAddNotes.setOnClickListener {
-            //TODO: addNotes function
-            saySoon()
+            val direction = EventInfoFragmentDirections.actionEventInfoFragmentToNotesFragment(eventId)
+            findNavController().navigate(direction)
         }
     }
 
