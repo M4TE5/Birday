@@ -57,5 +57,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner"
-        tools:listitem="@layout/favorite_event_item" />
+        tools:listitem="@layout/favorite_event_item"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_no_favorites_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        android:fontFamily="sans-serif"
+        android:text="No favorites! Press the star to save an event in your favorites!"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/im_emoji"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/im_emoji"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/emoji"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/tv_no_favorites_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner"
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="@color/semi_conspicuous_elements"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

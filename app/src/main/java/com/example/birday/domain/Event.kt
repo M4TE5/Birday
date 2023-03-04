@@ -15,6 +15,7 @@ class Event(
     val date: LocalDate,
     var showDateTag: Boolean = false,
     var favorite: Boolean = false,
+    var notes: String = "",
     var id: Int = UNDEFINED_ID
 ) {
 

@@ -9,5 +9,19 @@
         android:id="@+id/favoriteEventsFragment"
         android:name="com.example.birday.presentation.fragments.FavoriteEventsFragment"
         android:label="fragment_favorite_events"
-        tools:layout="@layout/fragment_favorite_events" />
+        tools:layout="@layout/fragment_favorite_events" >
+        <action
+            android:id="@+id/action_favoriteEventsFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/notesFragment"
+        android:name="com.example.birday.presentation.fragments.NotesFragment"
+        android:label="fragment_notes"
+        tools:layout="@layout/fragment_notes" >
+        <argument
+            android:name="eventId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </dialog>
 </navigation>

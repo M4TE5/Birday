@@ -37,20 +37,40 @@
                     app:layout_constraintStart_toEndOf="@+id/next_age"
                     app:layout_constraintTop_toBottomOf="@+id/tv_days_left" />
 
-                <TextView
-                    android:id="@+id/tv_name"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:text="Name"
-                    android:textColor="@color/conspicuous_elements"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/imageView5"
-                    app:layout_constraintTop_toTopOf="@+id/imageView5" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginStart="16dp"
+                        app:srcCompat="@drawable/balloon"
+                        app:tint="@color/cyan" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:text="Name"
+                        android:textColor="@color/conspicuous_elements"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/chinese_sign"
@@ -122,10 +142,9 @@
                     android:id="@+id/imageView2"
                     android:layout_width="128dp"
                     android:layout_height="129dp"
-                    android:layout_marginTop="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                     app:srcCompat="@drawable/ic_baseline_person_24" />
 
                 <TextView
@@ -235,20 +254,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_chinese_sign"
                     app:layout_constraintVertical_bias="1.0" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toStartOf="@id/tv_name"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/balloon"
-                    app:tint="@color/cyan" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

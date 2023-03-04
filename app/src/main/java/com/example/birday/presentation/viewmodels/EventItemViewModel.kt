@@ -66,6 +66,9 @@ class EventItemViewModel: ViewModel() {
         }
     }
 
+    fun editNotes(notes: String){
+        _event.value?.notes = notes
+    }
     fun getItemById(id: Int){
         val item = getEventUseCase.getEventById(id)!!
         _event.value = item
