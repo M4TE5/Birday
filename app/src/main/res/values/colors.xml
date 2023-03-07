@@ -19,5 +19,6 @@
     <color name="banner_stroke">#66939393</color>
     <color name="contrast">#1F1F1F</color>
     <color name="bottom_dialog">#FFFFFF</color>
+    <color name="design_dark_default_color_primary">#5ABF94</color>
     <color name="transparent">#00000000</color>
 </resources>

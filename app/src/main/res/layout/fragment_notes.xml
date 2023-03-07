@@ -69,6 +69,7 @@
             android:layout_height="160dp"
             android:gravity="top|left"
             android:maxLength="300"
+            android:textColor="@color/conspicuous_elements"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

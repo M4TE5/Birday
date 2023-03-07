@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/cyan</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorAccent">@color/cyan</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background</item>
         <!-- Customize your theme here. -->
