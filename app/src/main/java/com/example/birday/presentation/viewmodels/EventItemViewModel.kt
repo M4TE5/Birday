@@ -24,9 +24,9 @@ class EventItemViewModel: ViewModel() {
     val event: LiveData<Event>
         get() = _event
 
-    fun addItem(firstName: String, lastName: String, date: LocalDate){
+    fun addItem(firstName: String, lastName: String, date: LocalDate, eventType: String){
         if (validateInput(firstName, lastName)){
-            val event = Event(firstName, lastName, date)
+            val event = Event(firstName, lastName, date, eventType = eventType)
             addEventUseCase.addEvent(event)
         }
     }
@@ -50,13 +50,14 @@ class EventItemViewModel: ViewModel() {
     }
 
 
-    fun editItem(firstName: String, lastName: String, date: LocalDate){
+    fun editItem(firstName: String, lastName: String, date: LocalDate, eventType: String){
         if (validateInput(firstName, lastName)){
             _event.value?.let {
                 val event = Event(
                     firstName = firstName,
                     lastName = lastName,
                     date = date,
+                    eventType = eventType,
                     showDateTag = it.showDateTag,
                     favorite = it.favorite,
                     id = it.id

@@ -1,22 +1,19 @@
 package com.example.birday.presentation.fragments
 
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,11 +21,13 @@ import com.example.birday.R
 import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 class EventItemFragment : BottomSheetDialogFragment() {
 
@@ -43,6 +42,11 @@ class EventItemFragment : BottomSheetDialogFragment() {
 
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        return dialog
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
@@ -69,7 +73,9 @@ class EventItemFragment : BottomSheetDialogFragment() {
         }
         setDatePicker()
         launchRightMode()
+        setUpSpinner()
     }
+
     private fun launchRightMode() {
         when (screenMode) {
             MODE_ADD -> launchAddMode()
@@ -77,47 +83,49 @@ class EventItemFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun launchEditMode() = with(binding){
+    private fun launchEditMode() = with(binding) {
         fillTextInfo()
         tvHeader.text = getString(R.string.edit_event)
         bInsertItem.text = "Update event"
         icon.setImageResource(R.drawable.baseline_edit_note_24)
         bInsertItem.setOnClickListener {
-            if(validateInput()){
+            if (validateInput()) {
                 val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.editItem(
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
-                    date
+                    date,
+                    tvEventType.text.toString()
                 )
                 findNavController().popBackStack(R.id.eventListFragment, false)
             }
         }
     }
 
-    private fun launchAddMode() = with(binding){
+    private fun launchAddMode() = with(binding) {
         bInsertItem.text = "Insert event"
         bInsertItem.setOnClickListener {
-            if (validateInput()){
+            if (validateInput()) {
                 val date = LocalDate.parse(etSelectDate.text.toString(), dateFormatter)
                 viewModel.addItem(
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
-                    date
+                    date,
+                    tvEventType.text.toString()
                 )
                 requireActivity().onBackPressed()
             }
         }
     }
 
-   private fun validateInput(): Boolean = with(binding){
-       val dateStr = etSelectDate.text.toString()
-       val firstName = etFirstName.text.toString()
-       val lastName = etLastName.text.toString()
-       if(firstName.isNotEmpty() && lastName.isNotEmpty() && dateStr.isNotEmpty()) return true
-       Toast.makeText(requireContext(),"Incorrect input", Toast.LENGTH_SHORT).show()
-       return false
-   }
+    private fun validateInput(): Boolean = with(binding) {
+        val dateStr = etSelectDate.text.toString()
+        val firstName = etFirstName.text.toString()
+        val lastName = etLastName.text.toString()
+        if (firstName.isNotEmpty() && lastName.isNotEmpty() && dateStr.isNotEmpty()) return true
+        Toast.makeText(requireContext(), "Incorrect input", Toast.LENGTH_SHORT).show()
+        return false
+    }
 
     private fun fillTextInfo() {
         viewModel.getItemById(eventId)
@@ -130,7 +138,7 @@ class EventItemFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setDatePicker(){
+    private fun setDatePicker() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -138,25 +146,28 @@ class EventItemFragment : BottomSheetDialogFragment() {
 
         val dialog = DatePickerDialog(requireContext(),
             { _, year, month, dayOfMonth ->
-                val date = LocalDate.of(year,month + 1, dayOfMonth)
+                val date = LocalDate.of(year, month + 1, dayOfMonth)
                 val dateStr = date.format(dateFormatter)
                 binding.etSelectDate.setText(dateStr)
-            }, year, month, day)
+            }, year, month, day
+        )
 
         binding.etSelectDate.setOnClickListener {
             hideKeyboard()
             dialog.show()
         }
     }
-    private fun hideKeyboard(){
+
+    private fun hideKeyboard() {
         val view = requireActivity().currentFocus
-        if(view != null){
+        if (view != null) {
             requireActivity().apply {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken,0)
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
     }
+
     private fun parseParams() {
         screenMode = getScreenMode()
         eventId = getEventId()
@@ -170,6 +181,34 @@ class EventItemFragment : BottomSheetDialogFragment() {
                 throw RuntimeException("Param event id is undefined")
             }
         }
+    }
+
+    private fun setUpSpinner() {
+        val eventTypeList = getEventTypeList()
+
+        val adapter: ArrayAdapter<String?> = ArrayAdapter<String?>(
+            requireContext(),
+            R.layout.event_type_item,
+            R.id.tv_event_type,
+            eventTypeList
+        )
+        val eventType = if (viewModel.event.value != null)
+            viewModel.event.value?.eventType.toString()
+        else "Birthday"
+        binding.tvEventType.setText(eventType)
+        binding.tvEventType.setAdapter(adapter)
+
+    }
+
+
+    private fun getEventTypeList(): ArrayList<String?> {
+        val eventTypes: ArrayList<String?> = ArrayList()
+        eventTypes.add("Birthday")
+        eventTypes.add("Anniversary")
+        eventTypes.add("Death Anniversary")
+        eventTypes.add("Name day")
+        eventTypes.add("Other")
+        return eventTypes
     }
 
     private fun getEventId(): Int = args.eventId

@@ -13,6 +13,7 @@ class Event(
     val firstName: String,
     val lastName: String,
     val date: LocalDate,
+    val eventType: String = "Birthday",
     var showDateTag: Boolean = false,
     var favorite: Boolean = false,
     var notes: String = "",

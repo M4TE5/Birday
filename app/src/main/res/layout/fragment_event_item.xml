@@ -61,13 +61,13 @@
         app:srcCompat="@drawable/ic_baseline_person_24" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_first_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/til_event_type"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="@string/insert_first_name"
+        android:hint="Event type"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:boxCornerRadiusBottomEnd="10dp"
@@ -76,19 +76,58 @@
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@drawable/search_field_selector"
         app:boxStrokeWidth="1dp"
+        app:startIconDrawable="@drawable/baseline_wb_sunny_24"
+        app:startIconTint="@color/semi_conspicuous_elements"
+        app:layout_constraintBottom_toBottomOf="@+id/person_image"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/person_image"
+        app:layout_constraintTop_toTopOf="@+id/person_image"
+        app:layout_constraintVertical_bias="0.47">
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/tv_event_type"
+            android:layout_width="match_parent"
+            android:textColor="@color/conspicuous_elements"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:inputType="none"
+            android:minHeight="48dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_first_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/insert_first_name"
+        android:inputType="textPersonName"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@drawable/search_field_selector"
+        app:boxStrokeWidth="1dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/person_image">
+        app:layout_constraintTop_toBottomOf="@+id/person_image"
+        app:startIconDrawable="@drawable/emoji1"
+        app:startIconTint="@color/semi_conspicuous_elements">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_first_name"
-            android:singleLine="true"
-            android:maxLength="32"
             android:layout_width="match_parent"
-            android:textColor="@color/conspicuous_elements"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="32"
+            android:minHeight="48dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColor="@color/conspicuous_elements" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,13 +139,14 @@
         android:ems="10"
         android:hint="@string/insert_last_name"
         android:inputType="textPersonName"
-        android:minHeight="48dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@drawable/search_field_selector"
         app:boxStrokeWidth="1dp"
+        app:startIconDrawable="@drawable/emoji2"
+        app:startIconTint="@color/semi_conspicuous_elements"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/til_first_name">
@@ -115,8 +155,9 @@
             android:id="@+id/et_last_name"
             android:singleLine="true"
             android:maxLength="32"
+            android:minHeight="48dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textColor="@color/conspicuous_elements" />
@@ -131,13 +172,14 @@
         android:ems="10"
         android:hint="@string/select_a_date"
         android:inputType="textPersonName"
-        android:minHeight="48dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@drawable/search_field_selector"
         app:boxStrokeWidth="1dp"
+        app:startIconDrawable="@drawable/baseline_calendar_month_24"
+        app:startIconTint="@color/semi_conspicuous_elements"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/til_last_name">
@@ -146,7 +188,8 @@
             android:id="@+id/et_select_date"
             android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:focusable="false"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

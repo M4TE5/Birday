@@ -10,6 +10,7 @@ import com.example.birday.domain.EventListRepository
 import com.example.birday.presentation.EventListAdapter
 import java.time.LocalDate
 import java.time.Period
+import java.util.TreeSet
 import kotlin.random.Random
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -22,6 +23,8 @@ object EventListRepositoryImpl : EventListRepository {
     private val eventList = sortedSetOf<Event>(
         { o1, o2 -> o2.daysLeft() compareTo(o1.daysLeft()) }
     )
+    //private val eventList = mutableListOf<Event>()
+
     //TODO: Эта залупа удаляет дубликаты, исправить
 
     private var autoIncrementId = 0
@@ -76,10 +79,14 @@ object EventListRepositoryImpl : EventListRepository {
     }
     private fun updateList() {
         var month = 0
+
+        //eventList.sortByDescending { it.daysLeft() }
+
         for(i in eventList){
             i.showDateTag = i.date.monthValue != month
             month = i.date.monthValue
         }
+
         eventListLD.value = eventList.toList()
         if(eventListLD.value!!.isNotEmpty()) firstEventLD.value = eventList.first()
     }
