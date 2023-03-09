@@ -8,12 +8,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,6 +19,7 @@ import com.example.birday.R
 import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
@@ -39,14 +38,20 @@ class EventItemFragment : BottomSheetDialogFragment() {
 
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
-
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
+
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog.behavior.apply {
+            peekHeight = resources.getDimensionPixelSize(R.dimen.bottom_sheet_peek_height)
+            isHideable = true
+            state = BottomSheetBehavior.STATE_COLLAPSED
+        }
         return dialog
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
@@ -217,6 +222,7 @@ class EventItemFragment : BottomSheetDialogFragment() {
     companion object {
         const val MODE_ADD = "mode_add"
         const val MODE_EDIT = "mode_edit"
+        private const val DIALOG_DEFAULT_HEIGHT = 1000
         private const val MODE_UNKNOWN = ""
     }
 }
