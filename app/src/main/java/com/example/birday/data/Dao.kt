@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface Dao {
     @Insert
-    fun insertItem(event: Event)
+    fun insertItem(event: EventDbEntity)
     @Query("SELECT * FROM events")
-    fun getAllItems(): Flow<List<Event>>
+    fun getAllItems(): Flow<List<EventDbEntity>>
 }

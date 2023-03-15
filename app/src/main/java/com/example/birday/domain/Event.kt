@@ -9,7 +9,7 @@ import java.time.Period
 import java.time.temporal.ChronoUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Event(
+data class Event(
     val firstName: String,
     val lastName: String,
     val date: LocalDate,
@@ -19,22 +19,6 @@ class Event(
     var notes: String = "",
     var id: Int = UNDEFINED_ID
 ) {
-
-    fun getZodiacSign(): String {
-        if (dateIsInBounds(21, 3, 19, 4)) return "Aries"
-        if (dateIsInBounds(20, 4, 20, 5)) return "Taurus"
-        if (dateIsInBounds(21, 5, 20, 6)) return "Gemini"
-        if (dateIsInBounds(21, 6, 22, 7)) return "Cancer"
-        if (dateIsInBounds(23, 7, 22, 8)) return "Leo"
-        if (dateIsInBounds(23, 8, 22, 9)) return "Virgo"
-        if (dateIsInBounds(23, 9, 22, 10)) return "Libra"
-        if (dateIsInBounds(23, 10, 21, 11)) return "Scorpio"
-        if (dateIsInBounds(22, 11, 21, 12)) return "Sagittarius"
-        if (dateIsInBounds(22, 12, 19, 1)) return "Capricorn"
-        if (dateIsInBounds(20, 1, 18, 2)) return "Aquarius"
-        if (dateIsInBounds(19, 2, 20, 3)) return "Pisces"
-        return "Unknown zodiac sign"
-    }
 
     private fun dateIsInBounds(day1: Int, month1: Int, day2: Int, month2: Int): Boolean {
         var currentYear = LocalDate.now().year
@@ -86,6 +70,22 @@ class Event(
     }
 
     fun getDayName(): String = date.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
+
+    fun getZodiacSign(): String {
+        if (dateIsInBounds(21, 3, 19, 4)) return "Aries"
+        if (dateIsInBounds(20, 4, 20, 5)) return "Taurus"
+        if (dateIsInBounds(21, 5, 20, 6)) return "Gemini"
+        if (dateIsInBounds(21, 6, 22, 7)) return "Cancer"
+        if (dateIsInBounds(23, 7, 22, 8)) return "Leo"
+        if (dateIsInBounds(23, 8, 22, 9)) return "Virgo"
+        if (dateIsInBounds(23, 9, 22, 10)) return "Libra"
+        if (dateIsInBounds(23, 10, 21, 11)) return "Scorpio"
+        if (dateIsInBounds(22, 11, 21, 12)) return "Sagittarius"
+        if (dateIsInBounds(22, 12, 19, 1)) return "Capricorn"
+        if (dateIsInBounds(20, 1, 18, 2)) return "Aquarius"
+        if (dateIsInBounds(19, 2, 20, 3)) return "Pisces"
+        return "Unknown zodiac sign"
+    }
 
     companion object {
         const val UNDEFINED_ID = -1
