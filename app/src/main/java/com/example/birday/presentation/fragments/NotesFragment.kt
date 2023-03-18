@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.example.birday.R
+import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentNotesBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
@@ -20,10 +21,10 @@ import com.example.birday.presentation.viewmodels.EventItemViewModel
 class NotesFragment : DialogFragment() {
 
 
-    private lateinit var viewModel: EventItemViewModel
+    private val viewModel by lazy { EventItemViewModel(Dependencies.eventListRepository) }
     private lateinit var binding: FragmentNotesBinding
-
     private val args by navArgs<NotesFragmentArgs>()
+
     private var eventId: Int = Event.UNDEFINED_ID
 
     override fun onCreateView(
@@ -43,7 +44,7 @@ class NotesFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNotesBinding.bind(view)
-        viewModel = ViewModelProvider(this)[EventItemViewModel::class.java]
+
         fillInfo()
         setOnClickListeners()
     }
@@ -68,15 +69,16 @@ class NotesFragment : DialogFragment() {
             bCancel.setOnClickListener{
                 dismiss()
             }
-
             bOk.setOnClickListener {
                 val notes = etNotes.text.toString()
-                viewModel.editNotes(notes)
+                viewModel.event.observe(viewLifecycleOwner){
+                    it.notes = notes
+                    viewModel.editEvent(it)
+                }
                 dismiss()
             }
         }
     }
 
     private fun getEventId() = args.eventId
-
 }

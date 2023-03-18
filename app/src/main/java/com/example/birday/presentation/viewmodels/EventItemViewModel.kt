@@ -6,15 +6,18 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.birday.data.EventListRepositoryImpl
 import com.example.birday.domain.AddEventUseCase
 import com.example.birday.domain.EditEventUseCase
 import com.example.birday.domain.Event
 import com.example.birday.domain.GetEventByIdUseCase
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
-class EventItemViewModel: ViewModel() {
-    private val repository = EventListRepositoryImpl
+class EventItemViewModel(private val repository: EventListRepositoryImpl): ViewModel() {
 
     private val addEventUseCase = AddEventUseCase(repository)
     private val editEventUseCase = EditEventUseCase(repository)
@@ -26,8 +29,10 @@ class EventItemViewModel: ViewModel() {
 
     fun addItem(firstName: String, lastName: String, date: LocalDate, eventType: String){
         if (validateInput(firstName, lastName)){
-            val event = Event(firstName, lastName, date, eventType = eventType)
-            addEventUseCase.addEvent(event)
+            val event = Event(firstName, lastName, date, eventType = eventType, id = 0)
+            viewModelScope.launch {
+                addEventUseCase.addEvent(event)
+            }
         }
     }
 
@@ -59,25 +64,24 @@ class EventItemViewModel: ViewModel() {
                     date = date,
                     eventType = eventType
                 )
-//                val event = Event(
-//                    firstName = firstName,
-//                    lastName = lastName,
-//                    date = date,
-//                    eventType = eventType,
-//                    showDateTag = it.showDateTag,
-//                    favorite = it.favorite,
-//                    id = it.id
-//                )
-                editEventUseCase.editEvent(event)
+                viewModelScope.launch {
+                    editEventUseCase.editEvent(event)
+                }
             }
         }
     }
 
-    fun editNotes(notes: String){
-        _event.value?.notes = notes
+    fun editEvent(event: Event){
+        viewModelScope.launch {
+            editEventUseCase.editEvent(event)
+        }
     }
+
     fun getItemById(id: Int){
-        val item = getEventUseCase.getEventById(id)!!
-        _event.value = item
+        viewModelScope.launch{
+            getEventUseCase.getEventById(id).collect(){
+                _event.value = it
+            }
+        }
     }
 }

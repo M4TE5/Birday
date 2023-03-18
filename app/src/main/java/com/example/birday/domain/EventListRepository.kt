@@ -1,18 +1,16 @@
 package com.example.birday.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface EventListRepository {
 
-    fun addEvent(event: Event)
+    suspend fun addEvent(event: Event)
 
-    fun deleteEvent(event: Event)
+    suspend fun deleteEvent(event: Event)
 
-    fun editEvent(event: Event)
+    suspend fun editEvent(event: Event)
 
-    fun getEventById(id: Int): Event?
+    suspend fun getEventById(id: Int): Flow<Event?>
 
-    fun getEventList(): LiveData<List<Event>>
-    fun getFirstEvent():  LiveData<Event>
-    fun getListSize(): Int
+    suspend fun getEventList(): Flow<List<Event>>
 }

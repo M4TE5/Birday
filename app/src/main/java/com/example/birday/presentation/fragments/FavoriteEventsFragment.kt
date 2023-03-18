@@ -1,24 +1,27 @@
 package com.example.birday.presentation.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.birday.R
+import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentFavoriteEventsBinding
 import com.example.birday.presentation.FavoriteEventListAdapter
-import com.example.birday.presentation.viewmodels.MainViewModel
+import com.example.birday.presentation.viewmodels.EventListViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 class FavoriteEventsFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by lazy { EventListViewModel(Dependencies.eventListRepository) }
     private lateinit var adapter: FavoriteEventListAdapter
-
     private lateinit var binding: FragmentFavoriteEventsBinding
 
     override fun onCreateView(
@@ -32,9 +35,8 @@ class FavoriteEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFavoriteEventsBinding.bind(view)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        fillBannerInfo()
         setupRecyclerView()
+        fillBannerInfo()
         viewModel.eventList.observe(viewLifecycleOwner) {
             val list = it.filter { item -> item.favorite }
             if (list.isNotEmpty()) {
@@ -102,8 +104,17 @@ class FavoriteEventsFragment : Fragment() {
     private fun fillBannerInfo() = with(binding.banner) {
         icon.setImageResource(R.drawable.candle)
         tvHeader.text = "Statistics"
-        tvInfo.text = "Random staff" //TODO: Random statistic facts
-        tvCount.text = "Events: ${viewModel.getListSize()}"
+        viewModel.eventList.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                tvInfo.visibility = View.VISIBLE
+                tvInfo.text = "Random staff" //TODO: Random statistic facts
+                tvCount.text = "Events: ${it.size}"
+            }
+            else{
+                tvInfo.visibility = View.GONE
+                tvCount.text = "Your list is empty!"
+            }
+        }
     }
 
     private fun showNoFavoritesMessage(show: Boolean){

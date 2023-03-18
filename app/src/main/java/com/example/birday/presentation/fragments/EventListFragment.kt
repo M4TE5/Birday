@@ -13,18 +13,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.birday.R
+import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentEventListBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.EventListAdapter
-import com.example.birday.presentation.viewmodels.MainViewModel
+import com.example.birday.presentation.viewmodels.EventListViewModel
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 class EventListFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by lazy { EventListViewModel(Dependencies.eventListRepository) }
     private lateinit var adapter: EventListAdapter
-
     private lateinit var binding: FragmentEventListBinding
 
     override fun onCreateView(
@@ -39,7 +39,6 @@ class EventListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEventListBinding.bind(view)
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         fillBannerInfo()
         setupRecyclerView()
         viewModel.eventList.observe(viewLifecycleOwner) {
@@ -50,17 +49,31 @@ class EventListFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fillBannerInfo() {
-        binding.banner.apply {
-            viewModel.firstEvent.observe(viewLifecycleOwner) {
-                tvHeader.text = "${it.firstName} ${it.lastName}"
-                Log.d("MyLog", it.firstName)
-                val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
-                val dateStr =
-                    "${it.getDayName()}, ${it.getNextCelebrationDate().format(dateFormatter)}."
-                tvInfo.text = "$dateStr ${Math.abs(it.daysLeft())} days left"
+        viewModel.eventList.observe(viewLifecycleOwner) { list ->
+            binding.banner.apply {
+                if (list.isNotEmpty()) {
+                    val firstEvent = list.first()
+                    tvInfo.visibility = View.VISIBLE
+                    tvCount.visibility = View.VISIBLE
+                    tvHeader.text = "${firstEvent.firstName} ${firstEvent.lastName}"
+                    Log.d("MyLog", firstEvent.firstName)
+                    val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
+                    val dateStr =
+                        "${firstEvent.getDayName()}, ${
+                            firstEvent
+                                .getNextCelebrationDate()
+                                .format(dateFormatter)
+                        }."
+                    tvInfo.text = "$dateStr ${Math.abs(firstEvent.daysLeft())} days left"
 
-                tvCount.text = "Years: ${it.getAge()}"
+                    tvCount.text = "Years: ${firstEvent.getAge()}"
+                } else {
+                    tvHeader.text = "Your list is empty!"
+                    tvInfo.visibility = View.GONE
+                    tvCount.visibility = View.GONE
+                }
             }
+
         }
     }
 
@@ -82,6 +95,7 @@ class EventListFragment : Fragment() {
 
         adapter.onCheckBoxChangeListener = { it, checked ->
             it.favorite = checked
+            viewModel.editEvent(it)
         }
 
         binding.buttonHideBanner.setOnClickListener {

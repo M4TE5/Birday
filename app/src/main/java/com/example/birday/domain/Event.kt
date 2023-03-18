@@ -1,9 +1,8 @@
 package com.example.birday.domain
 
-import android.icu.util.LocaleData
 import android.os.Build
 import androidx.annotation.RequiresApi
-import java.time.Duration
+import com.example.birday.data.EventDbEntity
 import java.time.LocalDate
 import java.time.Period
 import java.time.temporal.ChronoUnit
@@ -17,8 +16,19 @@ data class Event(
     var showDateTag: Boolean = false,
     var favorite: Boolean = false,
     var notes: String = "",
-    var id: Int = UNDEFINED_ID
+    var id: Int
 ) {
+
+
+    fun toEventDbEntity(): EventDbEntity = EventDbEntity(
+        id = id,
+        firstName = firstName,
+        lastName = lastName,
+        date = date,
+        eventType = eventType,
+        isFavorite = favorite,
+        notes = notes
+    )
 
     private fun dateIsInBounds(day1: Int, month1: Int, day2: Int, month2: Int): Boolean {
         var currentYear = LocalDate.now().year
