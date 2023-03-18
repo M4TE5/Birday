@@ -1,7 +1,7 @@
 package com.example.birday.domain
 
 class DeleteEventUseCase (private val eventListRepository: EventListRepository) {
-    fun deleteEvent(event: Event){
+    suspend fun deleteEvent(event: Event){
         eventListRepository.deleteEvent(event)
     }
 }

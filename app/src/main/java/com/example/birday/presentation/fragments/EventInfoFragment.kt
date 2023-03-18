@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.birday.R
+import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentEventInfoBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventInfoViewModel
@@ -23,11 +25,10 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 class EventInfoFragment : Fragment() {
 
-    private lateinit var viewModel: EventInfoViewModel
-
+    private val viewModel by lazy { EventInfoViewModel(Dependencies.eventListRepository) }
     private lateinit var binding: FragmentEventInfoBinding
-
     private val args by navArgs<EventInfoFragmentArgs>()
+
     private var eventId: Int = Event.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +47,6 @@ class EventInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEventInfoBinding.bind(view)
-        viewModel = ViewModelProvider(this)[EventInfoViewModel::class.java]
         fillTextInfo()
         setClickListeners()
     }
@@ -55,20 +55,23 @@ class EventInfoFragment : Fragment() {
         viewModel.getEventById(eventId)
         val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
         viewModel.event.observe(viewLifecycleOwner) {
-            binding.apply {
-                tvName.text = "Details - " + it.firstName
-                tvNextAge.text = (it.getAge() + 1).toString()
-                tvDaysLeft.text = "${abs(it.daysLeft())} days left"
+            if(it != null){
+                binding.apply {
+                    tvName.text = "Details - " + it.firstName
+                    tvNextAge.text = (it.getAge() + 1).toString()
+                    tvDaysLeft.text = "${abs(it.daysLeft())} days left"
 
-                val dayName = it.getDayName()
-                val date = it.date.format(dateFormatter)
-                tvDate.text = "$dayName, $date"
+                    val dayName = it.getDayName()
+                    val date = it.date.format(dateFormatter)
+                    tvDate.text = "$dayName, $date"
 
-                tvZodiacSign.text = it.getZodiacSign()
-                tvChineseSign.text = it.getChineseSign()
+                    tvZodiacSign.text = it.getZodiacSign()
+                    tvChineseSign.text = it.getChineseSign()
+                }
             }
         }
     }
+
 
     private fun parseParams() {
         eventId = getEventId()
@@ -93,26 +96,19 @@ class EventInfoFragment : Fragment() {
         }
 
         buttonDelete.setOnClickListener {
-            viewModel.apply {
-                event.observe(viewLifecycleOwner) {
-                    deleteEvent(it)
-                }
-            }
+            viewModel.deleteEvent(viewModel.event.value)
+            //findNavController().popBackStack()
             Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
-            findNavController().popBackStack()
-            //requireActivity().onBackPressed()
+
+            requireActivity().onBackPressed()
             //TODO: no deleted animation
         }
 
         buttonAddNotes.setOnClickListener {
-            val direction = EventInfoFragmentDirections.actionEventInfoFragmentToNotesFragment(eventId)
+            val direction =
+                EventInfoFragmentDirections.actionEventInfoFragmentToNotesFragment(eventId)
             findNavController().navigate(direction)
         }
     }
 
-    private fun saySoon() {
-        Toast.makeText(requireContext(), "Скоро...", Toast.LENGTH_SHORT).show()
-        val mp = MediaPlayer.create(requireContext(), R.raw.soon)
-        mp.start()
-    }
 }

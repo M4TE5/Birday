@@ -1,9 +1,9 @@
 package com.example.birday.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 class GetEventListUseCase (private val eventListRepository: EventListRepository){
-    fun getEventList(): LiveData<List<Event>>{
+    suspend fun getEventList(): Flow<List<Event>> {
         return eventListRepository.getEventList()
     }
 }

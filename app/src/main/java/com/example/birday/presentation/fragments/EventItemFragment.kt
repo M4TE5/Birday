@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.birday.R
+import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
@@ -30,27 +31,14 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class EventItemFragment : BottomSheetDialogFragment() {
 
-    private lateinit var viewModel: EventItemViewModel
-
+    private val viewModel by lazy { EventItemViewModel(Dependencies.eventListRepository) }
     private lateinit var binding: FragmentEventItemBinding
-
     private val args by navArgs<EventItemFragmentArgs>()
 
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
 
-
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        dialog.behavior.apply {
-            peekHeight = resources.getDimensionPixelSize(R.dimen.bottom_sheet_peek_height)
-            isHideable = true
-            state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-        return dialog
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +60,6 @@ class EventItemFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEventItemBinding.bind(view)
-        viewModel = ViewModelProvider(this)[EventItemViewModel::class.java]
         binding.bCancel.setOnClickListener {
             dismiss()
         }
@@ -222,7 +209,6 @@ class EventItemFragment : BottomSheetDialogFragment() {
     companion object {
         const val MODE_ADD = "mode_add"
         const val MODE_EDIT = "mode_edit"
-        private const val DIALOG_DEFAULT_HEIGHT = 1000
         private const val MODE_UNKNOWN = ""
     }
 }

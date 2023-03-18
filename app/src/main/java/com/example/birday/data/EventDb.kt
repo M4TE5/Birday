@@ -7,5 +7,4 @@ import androidx.room.*
 @TypeConverters(Converters::class)
 abstract class EventDb : RoomDatabase() {
     abstract fun getDao(): Dao
-
 }
