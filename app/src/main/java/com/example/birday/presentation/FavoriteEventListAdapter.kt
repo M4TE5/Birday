@@ -38,7 +38,10 @@ class FavoriteEventListAdapter : ListAdapter<
     override fun onBindViewHolder(holder: FavoriteEventHolder, position: Int) {
         val event = getItem(position)
         val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
-        val dayName = event.getDayName()
+        val dayName = event.getNextCelebrationDate()
+            .dayOfWeek.toString()
+            .lowercase()
+            .replaceFirstChar { it.uppercase() }
         val dateStr = event.getNextCelebrationDate().format(dateFormatter)
 
         holder.binding.apply {

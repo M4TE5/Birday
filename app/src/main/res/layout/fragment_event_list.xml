@@ -58,5 +58,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner"
-        tools:listitem="@layout/event_item" />
+        tools:listitem="@layout/event_item"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/im_emoji"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/emoji"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/tv_no_events_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner"
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="@color/semi_conspicuous_elements" />
+
+    <TextView
+        android:id="@+id/tv_no_events_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="No events! Start adding one using the button below!"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/im_emoji" />
 </androidx.constraintlayout.widget.ConstraintLayout>

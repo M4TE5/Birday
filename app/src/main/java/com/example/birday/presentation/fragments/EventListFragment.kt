@@ -42,6 +42,11 @@ class EventListFragment : Fragment() {
         fillBannerInfo()
         setupRecyclerView()
         viewModel.eventList.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()){
+                showNoFavoritesMessage(false)
+            }
+            else showNoFavoritesMessage(true)
+
             adapter.submitList(it)
         }
         setupClickListeners()
@@ -53,24 +58,22 @@ class EventListFragment : Fragment() {
             binding.banner.apply {
                 if (list.isNotEmpty()) {
                     val firstEvent = list.first()
-                    tvInfo.visibility = View.VISIBLE
-                    tvCount.visibility = View.VISIBLE
                     tvHeader.text = "${firstEvent.firstName} ${firstEvent.lastName}"
-                    Log.d("MyLog", firstEvent.firstName)
                     val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
-                    val dateStr =
-                        "${firstEvent.getDayName()}, ${
-                            firstEvent
+                    val dateStr = "${firstEvent.getNextCelebrationDate()
+                            .dayOfWeek.toString()
+                            .lowercase()
+                            .replaceFirstChar { it.uppercase() }}, ${firstEvent
                                 .getNextCelebrationDate()
                                 .format(dateFormatter)
-                        }."
+                            }."
                     tvInfo.text = "$dateStr ${Math.abs(firstEvent.daysLeft())} days left"
 
                     tvCount.text = "Years: ${firstEvent.getAge()}"
                 } else {
-                    tvHeader.text = "Your list is empty!"
-                    tvInfo.visibility = View.GONE
-                    tvCount.visibility = View.GONE
+                    tvHeader.text = "Next event"
+                    tvInfo.text = "No events to show!"
+                    tvCount.text = "You haven't entered an event yet. Add one and let Birday help you!"
                 }
             }
 
@@ -135,6 +138,19 @@ class EventListFragment : Fragment() {
             rotation(0f)
             AccelerateDecelerateInterpolator()
             duration = 300
+        }
+    }
+
+    private fun showNoFavoritesMessage(show: Boolean){
+        binding.apply {
+            if (show){
+                imEmoji.visibility = View.VISIBLE
+                tvNoEventsMessage.visibility = View.VISIBLE
+            }
+            else {
+                imEmoji.visibility = View.INVISIBLE
+                tvNoEventsMessage.visibility = View.INVISIBLE
+            }
         }
     }
 }

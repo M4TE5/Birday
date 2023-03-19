@@ -41,6 +41,6 @@ class EventListRepositoryImpl(private val dao: Dao) : EventListRepository {
     override suspend fun getEventById(id: Int): Flow<Event?> = dao.getItemById(id).map { it?.toEvent() }
 
     override suspend fun getEventList(): Flow<List<Event>> {
-        return dao.getAllItems().map { list -> list.map { it.toEvent() } }
+        return dao.getAllItems().map { list -> list.map { it.toEvent() }.sortedByDescending { it.daysLeft() } }
     }
 }

@@ -111,8 +111,8 @@ class FavoriteEventsFragment : Fragment() {
                 tvCount.text = "Events: ${it.size}"
             }
             else{
-                tvInfo.visibility = View.GONE
-                tvCount.text = "Your list is empty!"
+                tvInfo.text = "No stats to show!"
+                tvCount.text = "You don't have enough events to generate stats. Add some and come back later!"
             }
         }
     }

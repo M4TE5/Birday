@@ -7,9 +7,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.birday.domain.Event
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 @Entity(tableName = "events")
-data class EventDbEntity (
+data class EventDbEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     @ColumnInfo(name = "firstName")
@@ -36,5 +37,4 @@ data class EventDbEntity (
         notes = notes,
         id = id
     )
-
 }
