@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.birday.R
 import com.example.birday.databinding.EventItemBinding
 import com.example.birday.domain.Event
 import java.time.format.DateTimeFormatter
 
-class EventListAdapter: ListAdapter<Event, EventListAdapter.EventHolder>(EventDiffCallBack()){
-    class EventHolder(view: View): RecyclerView.ViewHolder(view){
+class EventListAdapter : ListAdapter<Event, EventListAdapter.EventHolder>(EventDiffCallBack()) {
+    class EventHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = EventItemBinding.bind(view)
     }
 
@@ -41,6 +42,11 @@ class EventListAdapter: ListAdapter<Event, EventListAdapter.EventHolder>(EventDi
 
             val visibility = if (event.showDateTag) View.VISIBLE else View.GONE
             dateTag.visibility = visibility
+
+            Glide.with(personImage.context)
+                .load(event.imageUri ?: R.drawable.ic_baseline_person_24)
+                .circleCrop()
+                .into(personImage)
 
             checkBox.setOnClickListener {
                 onCheckBoxChangeListener?.invoke(event, checkBox.isChecked)

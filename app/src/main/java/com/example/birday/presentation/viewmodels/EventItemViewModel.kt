@@ -27,9 +27,16 @@ class EventItemViewModel(private val repository: EventListRepositoryImpl): ViewM
     val event: LiveData<Event>
         get() = _event
 
-    fun addItem(firstName: String, lastName: String, date: LocalDate, eventType: String){
+    fun addItem(firstName: String, lastName: String, date: LocalDate, eventType: String, imageUri: String? = null){
         if (validateInput(firstName, lastName)){
-            val event = Event(firstName, lastName, date, eventType = eventType, id = 0)
+            val event = Event(
+                firstName,
+                lastName,
+                date,
+                eventType = eventType,
+                imageUri = imageUri,
+                id = 0
+            )
             viewModelScope.launch {
                 addEventUseCase.addEvent(event)
             }
@@ -55,14 +62,15 @@ class EventItemViewModel(private val repository: EventListRepositoryImpl): ViewM
     }
 
 
-    fun editItem(firstName: String, lastName: String, date: LocalDate, eventType: String){
+    fun editItem(firstName: String, lastName: String, date: LocalDate, eventType: String, imageUri: String?){
         if (validateInput(firstName, lastName)){
             _event.value?.let {
                 val event = it.copy(
                     firstName = firstName,
                     lastName = lastName,
                     date = date,
-                    eventType = eventType
+                    eventType = eventType,
+                    imageUri = imageUri
                 )
                 viewModelScope.launch {
                     editEventUseCase.editEvent(event)

@@ -1,12 +1,17 @@
 package com.example.birday.presentation.fragments
 
+import android.app.Instrumentation.ActivityResult
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -76,7 +81,6 @@ class EventListFragment : Fragment() {
                     tvCount.text = "You haven't entered an event yet. Add one and let Birday help you!"
                 }
             }
-
         }
     }
 

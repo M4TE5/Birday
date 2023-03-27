@@ -1,29 +1,32 @@
 package com.example.birday.presentation.fragments
 
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.birday.R
 import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentEventItemBinding
 import com.example.birday.domain.Event
 import com.example.birday.presentation.viewmodels.EventItemViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -40,7 +43,8 @@ class EventItemFragment : BottomSheetDialogFragment() {
     private var screenMode: String = MODE_UNKNOWN
     private var eventId: Int = Event.UNDEFINED_ID
     private val dateFormatter = DateTimeFormatter.ofPattern(Event.DATE_FORMAT)
-
+    private var imageUri: String? = null
+    private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -62,6 +66,16 @@ class EventItemFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == RESULT_OK) {
+                    imageUri = result.data?.data.toString()
+                    Glide.with(requireContext())
+                        .load(imageUri)
+                        .circleCrop()
+                        .into(binding.personImage)
+                }
+            }
         return layoutInflater.inflate(R.layout.fragment_event_item, container, false)
     }
 
@@ -71,9 +85,10 @@ class EventItemFragment : BottomSheetDialogFragment() {
         binding.bCancel.setOnClickListener {
             dismiss()
         }
-        setDatePicker()
-        launchRightMode()
         setUpSpinner()
+        setDatePicker()
+        setImagePicker()
+        launchRightMode()
     }
 
     private fun launchRightMode() {
@@ -84,7 +99,7 @@ class EventItemFragment : BottomSheetDialogFragment() {
     }
 
     private fun launchEditMode() = with(binding) {
-        fillTextInfo()
+        fillEventInfo()
         tvHeader.text = getString(R.string.edit_event)
         bInsertItem.text = "Update event"
         icon.setImageResource(R.drawable.baseline_edit_note_24)
@@ -95,7 +110,8 @@ class EventItemFragment : BottomSheetDialogFragment() {
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
                     date,
-                    tvEventType.text.toString()
+                    tvEventType.text.toString(),
+                    imageUri = imageUri
                 )
                 findNavController().popBackStack(R.id.eventListFragment, false)
             }
@@ -111,7 +127,8 @@ class EventItemFragment : BottomSheetDialogFragment() {
                     etFirstName.text.toString(),
                     etLastName.text.toString(),
                     date,
-                    tvEventType.text.toString()
+                    tvEventType.text.toString(),
+                    imageUri = imageUri
                 )
                 requireActivity().onBackPressed()
             }
@@ -127,15 +144,25 @@ class EventItemFragment : BottomSheetDialogFragment() {
         return false
     }
 
-    private fun fillTextInfo() {
+    private fun fillEventInfo() {
         viewModel.getItemById(eventId)
         viewModel.event.observe(viewLifecycleOwner) {
+            imageUri = it.imageUri
             binding.apply {
+                setEventImage(imageUri)
                 etFirstName.setText(it.firstName)
                 etLastName.setText(it.lastName)
                 etSelectDate.setText(it.date.format(dateFormatter))
+                tvEventType.setText(it.eventType,false)
             }
         }
+    }
+
+    private fun setEventImage(imageUri: String?) {
+        Glide.with(requireContext())
+            .load(imageUri ?: R.drawable.ic_baseline_person_24)
+            .circleCrop()
+            .into(binding.personImage)
     }
 
     private fun setDatePicker() {
@@ -144,7 +171,8 @@ class EventItemFragment : BottomSheetDialogFragment() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val dialog = DatePickerDialog(requireContext(),
+        val dialog = DatePickerDialog(
+            requireContext(),
             { _, year, month, dayOfMonth ->
                 val date = LocalDate.of(year, month + 1, dayOfMonth)
                 val dateStr = date.format(dateFormatter)
@@ -155,6 +183,13 @@ class EventItemFragment : BottomSheetDialogFragment() {
         binding.etSelectDate.setOnClickListener {
             hideKeyboard()
             dialog.show()
+        }
+    }
+
+    private fun setImagePicker() {
+        binding.personImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            launcher?.launch(intent)
         }
     }
 
@@ -185,30 +220,27 @@ class EventItemFragment : BottomSheetDialogFragment() {
 
     private fun setUpSpinner() {
         val eventTypeList = getEventTypeList()
-
         val adapter: ArrayAdapter<String?> = ArrayAdapter<String?>(
             requireContext(),
             R.layout.event_type_item,
             R.id.tv_event_type,
             eventTypeList
         )
-        val eventType = if (viewModel.event.value != null)
-            viewModel.event.value?.eventType.toString()
-        else "Birthday"
-        binding.tvEventType.setText(eventType)
-        binding.tvEventType.setAdapter(adapter)
 
+        binding.apply {
+            tvEventType.setAdapter(adapter)
+            tvEventType.setText(eventTypeList.first(),false)
+        }
     }
 
-
     private fun getEventTypeList(): ArrayList<String?> {
-        val eventTypes: ArrayList<String?> = ArrayList()
-        eventTypes.add("Birthday")
-        eventTypes.add("Anniversary")
-        eventTypes.add("Death Anniversary")
-        eventTypes.add("Name day")
-        eventTypes.add("Other")
-        return eventTypes
+        return arrayListOf(
+            "Birthday",
+            "Anniversary",
+            "Death Anniversary",
+            "Name day",
+            "Other"
+        )
     }
 
     private fun getEventId(): Int = args.eventId
