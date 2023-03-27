@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.birday.R
 import com.example.birday.data.Dependencies
 import com.example.birday.databinding.FragmentEventInfoBinding
@@ -57,6 +58,7 @@ class EventInfoFragment : Fragment() {
         viewModel.event.observe(viewLifecycleOwner) {
             if(it != null){
                 binding.apply {
+                    setEventImage(it.imageUri)
                     tvName.text = "Details - " + it.firstName
                     tvNextAge.text = (it.getAge() + 1).toString()
                     tvDaysLeft.text = "${abs(it.daysLeft())} days left"
@@ -72,6 +74,12 @@ class EventInfoFragment : Fragment() {
         }
     }
 
+    private fun setEventImage(imageUri: String?){
+        Glide.with(requireContext())
+            .load(imageUri ?: R.drawable.ic_baseline_person_24)
+            .circleCrop()
+            .into(binding.personImage)
+    }
 
     private fun parseParams() {
         eventId = getEventId()

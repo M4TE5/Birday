@@ -16,6 +16,7 @@ data class Event(
     var showDateTag: Boolean = false,
     var favorite: Boolean = false,
     var notes: String = "",
+    var imageUri: String? = null,
     var id: Int
 ) {
 
@@ -27,7 +28,8 @@ data class Event(
         date = date,
         eventType = eventType,
         isFavorite = favorite,
-        notes = notes
+        notes = notes,
+        imageUri = imageUri
     )
 
     private fun dateIsInBounds(day1: Int, month1: Int, day2: Int, month2: Int): Boolean {

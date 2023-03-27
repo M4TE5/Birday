@@ -24,7 +24,9 @@ data class EventDbEntity(
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean,
     @ColumnInfo(name = "notes")
-    var notes: String
+    var notes: String,
+    @ColumnInfo(name = "imageUrl")
+    var imageUri: String?
     ){
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -35,6 +37,7 @@ data class EventDbEntity(
         eventType = eventType,
         favorite = isFavorite,
         notes = notes,
+        imageUri = imageUri,
         id = id
     )
 }

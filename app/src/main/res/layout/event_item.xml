@@ -33,7 +33,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/ic_dot"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="start|center_vertical"
@@ -71,7 +71,7 @@
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="Name"
@@ -79,7 +79,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/check_box"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/person_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -98,10 +98,10 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="73dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="8dp"
+            android:id="@+id/person_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -113,9 +113,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:button="@drawable/checkbox_selector"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="@+id/person_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            app:layout_constraintTop_toTopOf="@+id/person_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
